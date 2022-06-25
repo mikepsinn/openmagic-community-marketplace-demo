@@ -6,8 +6,6 @@ import MiniProfile from './MiniProfile'
 
 import TabMenu from './TabMenu'
 
-import Chat from '../Chat'
-
 import Daos from './Daos'
 import POAPs from './POAPs'
 import NFTs from './NFTs'
@@ -19,20 +17,12 @@ const tabs = [{ name: 'Overview' }, { name: 'Listings' }, { name: 'Transactions 
 
 export default function FullProfile({ profile }: { profile: ProfileType }) {
 	const [activeTab, setActiveTab] = React.useState('Overview')
-	const [showChat, setShowChat] = React.useState(false)
 
 	return (
 		<div className="bg-gray-50">
 			<div className="bg-white border-b border-gray-200">
 				<div className="max-w-md px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
-					<MiniProfile profile={profile} />
-					<button
-						type="submit"
-						onClick={() => {setShowChat(true)}}
-						className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md shadow-sm hover:bg-gray-800 focus:outline-none"
-					>
-						Message
-					</button>
+					<MiniProfile profile={profile} showMessageButton={true} />
 					<TabMenu tabs={tabs} activeTab={activeTab} selectTab={tab => setActiveTab(tab)} />
 				</div>
 			</div>
@@ -60,7 +50,6 @@ export default function FullProfile({ profile }: { profile: ProfileType }) {
 			{activeTab == 'Social' && <Social lens={profile.lens} profile={profile} />}
 			{activeTab == 'Writings' && <Writings mirror={profile.mirror} />} */}
 			</div>
-			<Chat address={profile.address} showChat={showChat} setShowChat={setShowChat} />
 		</div>
 	)
 }

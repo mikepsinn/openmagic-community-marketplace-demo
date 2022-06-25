@@ -3,7 +3,8 @@ import { APP_NAME } from '@/lib/consts'
 import '@rainbow-me/rainbowkit/styles.css'
 import { chain, createClient, WagmiConfig } from 'wagmi'
 import { apiProvider, configureChains, getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
-import CurrentUserProvider from '@/components/providers/CurrentUserProvider';
+import CurrentUserProvider from '@/components/providers/CurrentUserProvider'
+import ChatProvider from '@/components/providers/ChatProvider'
 
 import LayoutHeader from '@/components/layout/LayoutHeader'
 
@@ -21,9 +22,11 @@ const App = ({ Component, pageProps }) => {
 		<WagmiConfig client={wagmiClient}>
 			<RainbowKitProvider chains={chains}>
 				<CurrentUserProvider>
-					<LayoutHeader>
-						<Component {...pageProps} />
-					</LayoutHeader>
+					<ChatProvider>
+						<LayoutHeader>
+							<Component {...pageProps} />
+						</LayoutHeader>
+					</ChatProvider>
 				</CurrentUserProvider>
 			</RainbowKitProvider>
 		</WagmiConfig>

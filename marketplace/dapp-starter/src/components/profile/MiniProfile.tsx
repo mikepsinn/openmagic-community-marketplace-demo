@@ -4,6 +4,7 @@ import { timeConverter } from '@/lib/time'
 import { ProfileType } from '@/api/walletScan'
 import { useRouter } from 'next/router'
 import truncateEthAddress from 'truncate-eth-address'
+import useChat from '@/hooks/useChat'
 
 import { StarIcon } from '@heroicons/react/solid'
 
@@ -13,10 +14,17 @@ function classNames(...classes) {
 
 const reviews = { average: 4, totalCount: 1624 }
 
-export default function MiniProfile({ profile }: { profile: ProfileType }) {
+export default function MiniProfile({
+	profile,
+	showMessageButton = false,
+}: {
+	profile: ProfileType
+	showMessageButton?: boolean
+}) {
+	const { setShowChat, setAddress } = useChat()
 	const router = useRouter()
 	return (
-		<div className="pb-2 mt-3 mb-4">
+		<div className="pb-2 mt-3 ">
 			<div className="flex items-center space-x-5 ">
 				<div className="flex-shrink-0">
 					<div className="relative">
@@ -77,6 +85,20 @@ export default function MiniProfile({ profile }: { profile: ProfileType }) {
 				<p>{profile.nfts.ownedNfts.length == 100 ? '100+' : profile.nfts.ownedNfts.length} NFTs</p>
 				<p>{profile.mirror.length} Articles</p>
 			</div>
+			{showMessageButton && (
+				<button
+					type="submit"
+					onClick={(e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						setAddress(profile.address)
+						setShowChat(true)
+					}}
+					className="inline-flex justify-center px-4 py-2 mt-2 text-sm font-medium text-white bg-black border border-transparent rounded-md shadow-sm hover:bg-gray-800 focus:outline-none"
+				>
+					Message
+				</button>
+			)}
 		</div>
 	)
 }

@@ -5,16 +5,16 @@ import { CheckIcon, QuestionMarkCircleIcon, StarIcon } from '@heroicons/react/so
 import { ShieldCheckIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import LoadMiniProfile from './LoadMiniProfile'
+import useChat from '@/hooks/useChat'
 
-
-import Chat from './Chat'
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ')
 }
 
 export default function Listing({ listing }) {
-	const [showChat, setShowChat] = useState(false)
+	const { setShowChat, setAddress } = useChat();
+	
 	const router = useRouter()
 
 	return (
@@ -93,9 +93,10 @@ export default function Listing({ listing }) {
 						<div className="flex mt-10 space-x-2">
 							<button
 								onClick={() => {
+									setAddress(listing.seller)
 									setShowChat(true)
 								}}
-								className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-gray-300 border border-transparent rounded-md hover:bg-gray-400 focus:outline-none"
+								className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-blue-800 border border-transparent rounded-md hover:bg-blue-900 focus:outline-none"
 							>
 								Message
 							</button>
@@ -106,7 +107,6 @@ export default function Listing({ listing }) {
 					</section>
 				</div>
 			</div>
-			<Chat address={listing.seller} showChat={showChat} setShowChat={setShowChat} />
 		</div>
 	)
 }

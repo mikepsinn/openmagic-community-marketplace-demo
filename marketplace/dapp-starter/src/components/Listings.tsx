@@ -4,8 +4,6 @@
 import { useRouter } from "next/router"
 import HoverOverlay from "./HoverOverlay"
 
-import truncateEthAddress from 'truncate-eth-address'
-
 
 export default function Listings({ listings }) {
   const router = useRouter();
@@ -27,7 +25,7 @@ export default function Listings({ listings }) {
                   {listing.title}
                 </a>
               </h3>
-              <div className="mt-1 text-sm text-gray-500"><HoverOverlay walletAddress={truncateEthAddress(listing.seller)} /></div>
+              <div className="mt-1 text-sm text-gray-500"><HoverOverlay walletAddress={listing.seller} /></div>
               <p className="mt-1 text-sm font-medium text-gray-900">{listing.price}</p>
               { listing.communities.length > 0 && 
               <div className="mt-1 text-sm">

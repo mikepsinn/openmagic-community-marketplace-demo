@@ -2,8 +2,7 @@ import * as React from 'react'
 import Iframe from 'react-iframe'
 import truncateEthAddress from 'truncate-eth-address'
 
-export default function Chat({ address, showChat, setShowChat }) {
-	const [hide, setHide] = React.useState(false)
+export default function Chat({ address, showChat, setShowChat, hide, setHide }) {
 
 	if (!showChat) return null
 
