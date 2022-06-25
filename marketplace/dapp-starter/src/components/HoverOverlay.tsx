@@ -39,7 +39,7 @@ export default function HoverOverlay({ walletAddress }: UserProps) {
 	React.useEffect(() => setMounted(true), [])
 
 	let timeout // NodeJS.Timeout
-	const timeoutDuration = 400
+	const timeoutDuration = 200
 
 	const buttonRef = useRef(null) // useRef<HTMLButtonElement>(null)
 	const [openState, setOpenState] = useState(false)
@@ -105,6 +105,7 @@ export default function HoverOverlay({ walletAddress }: UserProps) {
 			<Popover className="relative">
 				{({ open }) => (
 					<div
+					className='inline-block'
 						onMouseEnter={() => onHover(open, 'onMouseEnter')}
 						onMouseLeave={() => onHover(open, 'onMouseLeave')}
 					>
