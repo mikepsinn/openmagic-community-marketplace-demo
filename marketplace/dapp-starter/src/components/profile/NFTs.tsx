@@ -3,7 +3,6 @@ import * as React from 'react'
 import AssetImage from './AssetImage'
 
 export default function NFTs({ nfts }) {
-	console.log(nfts);
 	return (
     <div>
       <div className='flex justify-start my-4 space-x-6 text-sm font-medium text-gray-500'>
