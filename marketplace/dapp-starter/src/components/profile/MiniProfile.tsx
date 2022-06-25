@@ -82,7 +82,7 @@ export default function MiniProfile({
 				</div>
 				<p>{profile.daos.totalDaos} DAOs</p>
 				<p>{profile.poaps.length} POAPs</p>
-				<p>{profile.nfts.ownedNfts.length == 100 ? '100+' : profile.nfts.ownedNfts.length} NFTs</p>
+				<p>{profile.nfts.length == 100 ? '100+' : profile.nfts.length} NFTs</p>
 				<p>{profile.mirror.length} Articles</p>
 			</div>
 			{showMessageButton && (

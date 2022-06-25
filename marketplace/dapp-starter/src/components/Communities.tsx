@@ -12,11 +12,11 @@ export default function Communities({ profile }) {
             image={dao.image}
 					/>
 				))}
-        {profile.nfts.ownedNfts.map(nft => (
+        {profile.nfts.map(nft => (
 					<CommunityCheckbox
 						key={JSON.stringify(nft)}
-						title={nft.title || <span className='text-gray-500'>No Title</span>}
-            image={nft.media[0].gateway}
+						title={nft.name || <span className='text-gray-500'>No Title</span>}
+            image={nft.image_url}
 					/>
 				))}
         {profile.poaps.map(poap => (
