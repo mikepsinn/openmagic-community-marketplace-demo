@@ -1,17 +1,19 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 
+import { useRouter } from "next/router"
 import HoverOverlay from "./HoverOverlay"
 
 
 export default function Listings({ listings }) {
+  const router = useRouter();
   return (
     <div className="bg-white">
       <div>
 
         <div className="grid grid-cols-2 mt-6 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
           {listings.map((listing) => (
-            <div key={listing.id} className="relative">
+            <div key={listing.id} className="relative" onClick={() => router.push(`/listing/${listing.id}`)}>
               <div className="w-full h-56 overflow-hidden bg-gray-200 rounded-md hover:opacity-75 lg:h-72 xl:h-80">
                 <img
                   src={listing.imageSrc}

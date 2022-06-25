@@ -6,7 +6,7 @@ import Listing from "@/components/Listing";
 
 import Loading from '@/components/Loading';
 
-import {getWalletInfo} from "@/api/walletScan";
+import { listings } from '@/api/listings';
 
 const Failed = () => {
   return (
@@ -26,24 +26,24 @@ type ItemProps = {
 
 
 export default function Item({ itemId }: ItemProps) {
-  const [profile, setProfile] = React.useState<ProfileType>(null);
-  const [loading, setLoading] = React.useState(false);
+  const [listing, setListing] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
   const [failed, setFailed] = React.useState(false);
 
-  // React.useEffect(() => {
-  //   const getProfile = async () => {
-  //   if (itemId) {
-  //       const resp = await getWalletInfo(itemId);
-  //       if (resp) {
-  //         setProfile(resp);
-  //       } else {
-  //         setFailed(true);
-  //       }
-  //       setLoading(false);
-  //     }
-  //   }
-  //   getProfile();
-  // }, [itemId])
+  React.useEffect(() => {
+    const getListing = async () => {
+    if (itemId) {
+        const foundListing = listings.find(listing => (listing.id == parseInt(itemId)));
+        if (foundListing) {
+          setListing(foundListing);
+        } else {
+          setFailed(true);
+        }
+        setLoading(false);
+      }
+    }
+    getListing();
+  }, [itemId])
 
   return (
     <div>
@@ -51,7 +51,7 @@ export default function Item({ itemId }: ItemProps) {
     {!loading && 
       <div>
         {
-          !failed ? <Listing /> : <Failed />
+          !failed ? <Listing listing={listing} /> : <Failed />
         }
       </div>
     }
