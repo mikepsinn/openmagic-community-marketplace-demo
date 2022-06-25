@@ -1,0 +1,19 @@
+{
+  "name": "walletscan_demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx functions-framework --target=walletscan_demo",
+    "deploy": "gcloud functions deploy walletscan_demo --trigger-http --runtime nodejs12 --allow-unauthenticated"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@google-cloud/functions-framework": "^3.1.2"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "ethers": "^5.6.9"
+  }
+}
