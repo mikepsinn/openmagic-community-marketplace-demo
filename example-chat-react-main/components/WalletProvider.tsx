@@ -22,12 +22,16 @@ export const WalletProvider = ({
 
   const resolveName = useCallback(
     async (name: string) => {
-      if (cachedResolveName.has(name)) {
-        return cachedResolveName.get(name)
+      try {
+        if (cachedResolveName.has(name)) {
+          return cachedResolveName.get(name)
+        }
+        const address = (await provider?.resolveName(name)) || undefined
+        cachedResolveName.set(name, address)
+        return address
+      } catch {
+        // do nothing
       }
-      const address = (await provider?.resolveName(name)) || undefined
-      cachedResolveName.set(name, address)
-      return address
     },
     [provider]
   )
@@ -37,9 +41,13 @@ export const WalletProvider = ({
       if (cachedLookupAddress.has(address)) {
         return cachedLookupAddress.get(address)
       }
-      const name = (await provider?.lookupAddress(address)) || undefined
-      cachedLookupAddress.set(address, name)
-      return name
+      try {
+        const name = (await provider?.lookupAddress(address)) || undefined
+        cachedLookupAddress.set(address, name)
+        return name
+      } catch {
+        console.log('caught err')
+      }
     },
     [provider]
   )
