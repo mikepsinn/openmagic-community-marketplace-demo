@@ -4,6 +4,7 @@ const ethers = require("ethers");
 const ALCHEMY_KEY = process.env.ALCHEMY_KEY;
 const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY;
 const POAP_API_KEY = process.env.POAP_API_KEY;
+const OPENSEA_API_KEY = process.env.OPENSEA_API_KEY;
 
 const ETHGLOBAL_ADDR = "0xba17eeb3f0413b76184ba8ed73067063fba6e2eb";
 
@@ -16,18 +17,21 @@ const getAddressByENSName = async (ensName) => {
   return await provider.resolveName(ensName);
 }
 
-const getNFTsFromAlchemy = async(address) => {
+const getNFTs = async(address) => {
   try {
-    const baseURL = `https://eth-mainnet.alchemyapi.io/nft/v2/${ALCHEMY_KEY}/getNFTs/`;
+    const baseURL = `https://api.opensea.io/api/v1/assets`;
     var config = {
       method: 'get',
-      url: `${baseURL}?owner=${address}`
+      url: `${baseURL}?owner=${address}&limit=50`,
+      headers: {
+        "X-API-KEY": OPENSEA_API_KEY
+      }
     };
     
     const response = await axios(config);
     return {
       success: true,
-      data: response.data,
+      data: response.data.assets,
     };
   } catch (error) {
     return {
@@ -341,7 +345,7 @@ exports.walletscan_demo = async (req, res) => {
         }
 
         // 1. get NFT data
-        const nftPromise = getNFTsFromAlchemy(address); // need error catching!
+        const nftPromise = getNFTs(address); // need error catching!
 
         // 2. get mirror data
         const mirrorPromise = getArticlesFromMirror(address);

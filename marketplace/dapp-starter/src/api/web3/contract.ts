@@ -58,7 +58,6 @@ export async function acceptItem(address: string, orderId: string) {
 
 // Helper Functions
 export const zip = async (rows) => {
-    console.log(rows)
     const loadedMetadata = await Promise.all(rows[3].map(ipfsHash => {
         return readMetadataFromIPFS(ipfsHash)
     }));

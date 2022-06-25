@@ -9,19 +9,19 @@ import ListingCard from './ListingCard'
 import { getAllOrders } from '@/api/web3/contract'
 
 export default function Listings() {
-	const router = useRouter()
+	const router = useRouter();
 	const [listings, setListings] = useState<any[]>([])
 	const [loading, setLoading] = useState<boolean>(false)
 
 	useEffect(() => {
 		if (!loading) {
-			setLoading(true)
+			setLoading(true);
 			getAllOrders().then(items => {
 				setListings(items)
 				setLoading(false)
-			})
+			});
 		}
-	}, [loading])
+	}, [])
 
 	return (
 		<div className="bg-white">
