@@ -2,9 +2,8 @@
 pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-contract OrderBook is Initializable {
+contract OrderBook {
     struct Listing {
         string orderId;
         address seller;
