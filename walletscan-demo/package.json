@@ -1,10 +1,11 @@
 {
-  "name": "walletscan-demo",
+  "name": "walletscan_demo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx functions-framework --target=walletscan_demo",
+    "deploy": "gcloud functions deploy walletscan_demo --trigger-http --runtime nodejs12 --allow-unauthenticated"
   },
   "author": "",
   "license": "ISC",
