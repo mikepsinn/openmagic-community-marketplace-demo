@@ -26,7 +26,7 @@ export default function TabMenu({ tabs, activeTab, selectTab }) {
         </select>
       </div>
       <div className="hidden sm:block">
-        <div className="border-b border-gray-200">
+        <div className="">
           <nav className="flex -mb-px space-x-8" aria-label="Tabs">
             {tabs.map((tab) => (
               <a

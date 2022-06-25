@@ -8,8 +8,14 @@ export default function Social({ lens, profile }) {
 
 	return (
 		<div>
+      <div className='flex justify-start my-4 space-x-6 text-sm font-medium text-gray-500'>
+  <p>
+    Connected Socials: {lens.length}
+  </p>
+  </div>
+
 			{lens.map(len => (
-				<div key={len.id} className="p-4 my-4 border rounded">
+				<div key={len.id} className="p-4 my-4 bg-white border rounded">
 					<a
 						className="text-sm font-medium "
 						style={{ color: '#00501E' }}
@@ -30,9 +36,6 @@ export default function Social({ lens, profile }) {
 					<p>{len.bio}</p>
 				</div>
 			</div>
-
-
-
 					<div className="flex justify-start my-4 space-x-6 text-sm font-medium text-gray-500">
 						<p>
 							<b>{len.totalFollowers || 0}</b> followers

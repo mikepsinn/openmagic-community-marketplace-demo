@@ -5,7 +5,7 @@ import { ProfileType } from '@/api/walletScan'
 
 export default function MiniProfile({ profile }: { profile: ProfileType }) {
 	return (
-		<div className="p-4 mt-3 mb-4 border rounded">
+		<div className="pb-2 mt-3 mb-4">
 			<div className="flex items-center space-x-5 ">
 				<div className="flex-shrink-0">
 					<div className="relative">
