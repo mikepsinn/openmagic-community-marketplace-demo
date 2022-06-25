@@ -3,6 +3,7 @@ import ProfileImage from './ProfileImage'
 import { timeConverter } from '@/lib/time'
 import { ProfileType } from '@/api/walletScan'
 import { useRouter } from 'next/router'
+import truncateEthAddress from 'truncate-eth-address'
 
 export default function MiniProfile({ profile }: { profile: ProfileType }) {
 	const router = useRouter();
@@ -18,9 +19,9 @@ export default function MiniProfile({ profile }: { profile: ProfileType }) {
 				<div>
 					<a className='cursor-pointer hover:underline' onClick={() => router.push(`/user/${profile.ensName || profile.address}`)}>
 						<h1 className="text-2xl font-bold text-gray-900">
-							{profile.ensName || profile.address}
+							{profile.ensName || truncateEthAddress(profile.address)}
 							{profile.ensName && (
-								<span className="ml-2 text-sm font-normal text-gray-600">{profile.address}</span>
+								<span className="ml-2 text-sm font-normal text-gray-600">{truncateEthAddress(profile.address)}</span>
 							)}
 						</h1>
 					</a>
