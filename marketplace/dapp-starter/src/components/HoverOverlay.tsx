@@ -9,6 +9,7 @@ import MiniProfile from '@/components/profile/MiniProfile'
 
 import { getWalletInfo } from '@/api/walletScan'
 import { useRouter } from 'next/router'
+import truncateEthAddress from 'truncate-eth-address'
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ')
@@ -116,7 +117,7 @@ export default function HoverOverlay({ walletAddress }: UserProps) {
 								}}
 								className="hover:underline"
 							>
-								{walletAddress}
+								{truncateEthAddress(walletAddress)}
 							</span>
 						</Popover.Button>
 
@@ -132,7 +133,7 @@ export default function HoverOverlay({ walletAddress }: UserProps) {
 						>
 							<Popover.Panel static className="absolute z-50 p-4 bg-white rounded-md shadow-md cursor-default">
 								{loading && 'Loading...'}
-								{!loading && <div>{!failed ? <MiniProfile profile={profile} /> : <Failed />}</div>}
+								{!loading && <div>{!failed ? <MiniProfile profile={profile} showMessageButton={true} /> : <Failed />}</div>}
 							</Popover.Panel>
 						</Transition>
 					</div>

@@ -22,7 +22,7 @@ export default function FullProfile({ profile }: { profile: ProfileType }) {
 		<div className="bg-gray-50">
 			<div className="bg-white border-b border-gray-200">
 				<div className="max-w-md px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
-					<MiniProfile profile={profile} />
+					<MiniProfile profile={profile} showMessageButton={true} />
 					<TabMenu tabs={tabs} activeTab={activeTab} selectTab={tab => setActiveTab(tab)} />
 				</div>
 			</div>
@@ -40,7 +40,7 @@ export default function FullProfile({ profile }: { profile: ProfileType }) {
 						<Writings mirror={profile.mirror} />
 						<hr className="my-6" />
 						<NFTs nfts={profile.nfts} />
-						<div className='pb-10' />
+						<div className="pb-10" />
 					</div>
 				)}
 				{/* {activeTab == 'DAOs' && <Daos daos={profile.daos} />}
