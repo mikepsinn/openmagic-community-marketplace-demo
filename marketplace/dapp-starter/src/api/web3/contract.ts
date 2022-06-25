@@ -57,7 +57,8 @@ export async function acceptItem(address: string, orderId: string) {
 
 // Helper Functions
 export const zip = (rows) => {
-    const zipped = rows[0].map((_ ,c)=>rows.map(row=>row[c]))
+    const formedRows = [rows[0], rows[1], rows[2], rows[3]]
+    const zipped = formedRows[0].map((_ ,c)=>formedRows.map(row=>row[c]))
     return zipped.map(([ id, seller, isOpen, metadata]) => ({id, seller, isOpen, metadata}));
 }
 

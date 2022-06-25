@@ -1,7 +1,8 @@
 import { FC } from 'react'
 import useCurrentUser from '@/hooks/useCurrentUser';
 
-import { getAllOrders, listItem, acceptItem } from "../api/contract"
+import { getAllOrders, listItem, acceptItem } from "../api/web3/contract"
+import { getMirrorArticleFromHash } from '@/api/web3/mirror';
 
 const Home: FC = () => {
 	// const currUser = useCurrentUser();
