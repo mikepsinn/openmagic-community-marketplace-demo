@@ -1,25 +1,34 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
+import { useRouter } from 'next/router'
 import React from 'react'
-
-import AssetImage from './profile/AssetImage'
+import HoverOverlay from './HoverOverlay'
 
 const ListingCard = ({ listing }) => {
+	const router = useRouter()
+
 	return (
-		<div
-			className="relative flex items-center px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm"
-		>
-			<div className="flex-shrink-0">
-				<AssetImage image={listing.image} />
+		<div key={listing.id} className="relative" onClick={() => router.push(`/listing/${listing.id}`)}>
+			<div className="w-full h-56 overflow-hidden bg-gray-200 rounded-md hover:opacity-75 lg:h-72 xl:h-80">
+				<img src={listing.imageSrc} className="object-cover object-center w-full h-full cursor-pointer" />
 			</div>
-			<div className="flex-1 min-w-0">
-				<div className="focus:outline-none">
-					<span className="absolute inset-0" aria-hidden="true" />
-					<h3 className="text-lg font-medium text-gray-900">
-						{listing.title || <span className="text-gray-500">No Title</span>}
-					</h3>
-          <p className='font-normal text-gray-800'>{listing.price}</p>
-          <p className="text-sm text-gray-500 truncate">{listing.availability}</p>
+			<h3 className="mt-4 text-sm text-gray-700">
+				<a>{listing.title}</a>
+			</h3>
+			<div className="mt-1 text-sm text-gray-500">
+				<HoverOverlay walletAddress={listing.seller} />
+			</div>
+			<p className="mt-1 text-sm font-medium text-gray-900">{listing.price}</p>
+			{listing.communities.length > 0 && (
+				<div className="mt-1 text-sm">
+					<span className="text-gray-500">Only for members of</span>{' '}
+					<span className="text-blue-500">
+						{listing.communities.map(community => (
+							<span key={community.name}>{community.name}</span>
+						))}
+					</span>
 				</div>
-			</div>
+			)}
 		</div>
 	)
 }
