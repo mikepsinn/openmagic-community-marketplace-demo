@@ -77,7 +77,7 @@ const getTransactionForHackNYC = async (address) => {
     if (txs.length > 0) {
       firstTx = {
         hash: txs[0].hash,
-        timestamp: parseInt(txs[0].timestamp, 10)
+        timestamp: parseInt(txs[0].timeStamp, 10)
       }
     }
 
