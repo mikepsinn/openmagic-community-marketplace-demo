@@ -4,7 +4,6 @@ import Listings from '@/components/Listings';
 import { getAllOrders, listItem, acceptItem } from "../api/web3/contract"
 import { getMirrorArticleFromHash } from '@/api/web3/mirror';
 import useCurrentUser from '@/hooks/useCurrentUser';
-import { uploadToIPFS } from "../api/web3/ipfs";
 
 import { listings } from '@/api/listings';
 

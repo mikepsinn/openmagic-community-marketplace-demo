@@ -1,5 +1,6 @@
 import Web3 from "web3";
 import { v4 as uuid } from "uuid"; 
+import { uploadMetadataToIPFS, readMetadataFromIPFS } from "./ipfs";
 
 const contractAddress: string = '0x5fbdb2315678afecb367f032d93f642f64180aa3';
 import { abi } from "./abi";
@@ -11,7 +12,7 @@ const orderbook = new web3.eth.Contract((abi as any), contractAddress);
 // Getting Functions for the Address
 export async function getAllOrders() {
     const flattened = await orderbook.methods.exportOrders().call();
-    const orders = zip(flattened);
+    const orders = await zip(flattened);
     return orders;
 }
 
@@ -32,16 +33,17 @@ export async function getCompletedOrdersForSeller(address: string) {
 
 // Functions that mutates state
 
-export async function listItem(address: string, orderDetail: string) {
+export async function listItem(address: string, orderMetadata: any) {
     const orderId = uuid();
+    const orderDetailIPFS = await uploadMetadataToIPFS({ id: orderId, ...orderMetadata });
     await (window as any).ethereum?.request({
         method: "eth_sendTransaction",
         params:[{
             from: address,
             to: contractAddress,
-            data: orderbook.methods.listItem(orderId, orderDetail).encodeABI(),
+            data: orderbook.methods.listItem(orderId, orderDetailIPFS).encodeABI(),
         }]
-    })
+    });
 }
 
 export async function acceptItem(address: string, orderId: string) {
@@ -56,8 +58,9 @@ export async function acceptItem(address: string, orderId: string) {
 }
 
 // Helper Functions
-export const zip = (rows) => {
-    const formedRows = [rows[0], rows[1], rows[2], rows[3]]
+export const zip = async (rows) => {
+    const loadedMetadata = await Promise.all(rows[3].map(ipfsHash => readMetadataFromIPFS(ipfsHash)));
+    const formedRows = [rows[0], rows[1], rows[2], loadedMetadata]
     const zipped = formedRows[0].map((_ ,c)=>formedRows.map(row=>row[c]))
     return zipped.map(([ id, seller, isOpen, metadata]) => ({id, seller, isOpen, metadata}));
 }
