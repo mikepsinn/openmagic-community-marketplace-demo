@@ -5,8 +5,16 @@ import { ProfileType } from '@/api/walletScan'
 import { useRouter } from 'next/router'
 import truncateEthAddress from 'truncate-eth-address'
 
+import { StarIcon } from '@heroicons/react/solid'
+
+function classNames(...classes) {
+	return classes.filter(Boolean).join(' ')
+}
+
+const reviews = { average: 4, totalCount: 1624 }
+
 export default function MiniProfile({ profile }: { profile: ProfileType }) {
-	const router = useRouter();
+	const router = useRouter()
 	return (
 		<div className="pb-2 mt-3 mb-4">
 			<div className="flex items-center space-x-5 ">
@@ -17,18 +25,26 @@ export default function MiniProfile({ profile }: { profile: ProfileType }) {
 					</div>
 				</div>
 				<div>
-					<a className='cursor-pointer hover:underline' onClick={() => router.push(`/user/${profile.ensName || profile.address}`)}>
+					<a
+						className="cursor-pointer hover:underline"
+						onClick={() => router.push(`/user/${profile.ensName || profile.address}`)}
+					>
 						<h1 className="text-2xl font-bold text-gray-900">
 							{profile.ensName || truncateEthAddress(profile.address)}
 							{profile.ensName && (
-								<span className="ml-2 text-sm font-normal text-gray-600">{truncateEthAddress(profile.address)}</span>
+								<span className="ml-2 text-sm font-normal text-gray-600">
+									{truncateEthAddress(profile.address)}
+								</span>
 							)}
 						</h1>
 					</a>
 					{profile?.first_tx?.timestamp ? (
 						<p className="text-sm font-medium text-gray-500">
 							Web3 user since{' '}
-							<a href={`https://etherscan.io/tx/${profile.first_tx.hash}`} className="text-gray-900 hover:underline">
+							<a
+								href={`https://etherscan.io/tx/${profile.first_tx.hash}`}
+								className="text-gray-900 hover:underline"
+							>
 								<time dateTime="2020-08-25">{timeConverter(profile?.first_tx?.timestamp)}</time>
 							</a>{' '}
 						</p>
@@ -38,12 +54,28 @@ export default function MiniProfile({ profile }: { profile: ProfileType }) {
 				</div>
 			</div>
 			<div className="flex justify-start mt-2 space-x-6 text-sm font-medium text-gray-500">
-				<p>100% Positive Feedback</p>
-				<p>Reviews: 124</p>
-				<p>DAOs: {profile.daos.totalDaos}</p>
-				<p>POAPs: {profile.poaps.length}</p>
-				<p>NFTs: {profile.nfts.ownedNfts.length == 100 ? '100+' : profile.nfts.ownedNfts.length}</p>
-				<p>Writings: {profile.mirror.length}</p>
+				<div className="flex items-center">
+					<div>
+						<div className="flex items-center">
+							{[0, 1, 2, 3, 4].map(rating => (
+								<StarIcon
+									key={rating}
+									className={classNames(
+										reviews.average > rating ? 'text-yellow-400' : 'text-gray-300',
+										'h-5 w-5 flex-shrink-0'
+									)}
+									aria-hidden="true"
+								/>
+							))}
+						</div>
+						<p className="sr-only">{reviews.average} out of 5 stars</p>
+					</div>
+					<p className="ml-2 text-sm text-gray-500">{reviews.totalCount} Reviews</p>
+				</div>
+				<p>{profile.daos.totalDaos} DAOs</p>
+				<p>{profile.poaps.length} POAPs</p>
+				<p>{profile.nfts.ownedNfts.length == 100 ? '100+' : profile.nfts.ownedNfts.length} NFTs</p>
+				<p>{profile.mirror.length} Articles</p>
 			</div>
 		</div>
 	)
