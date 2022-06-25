@@ -1,5 +1,10 @@
 export const abi = [
   {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
@@ -77,6 +82,11 @@ export const abi = [
         "internalType": "uint256[]",
         "name": "",
         "type": "uint256[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
       }
     ],
     "stateMutability": "view",
@@ -117,6 +127,11 @@ export const abi = [
           {
             "internalType": "uint256",
             "name": "price",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "orderNum",
             "type": "uint256"
           }
         ],

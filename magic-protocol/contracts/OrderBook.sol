@@ -10,9 +10,14 @@ contract OrderBook {
         string orderDetailsMetadata;
         bool isOpen;
         uint price;
-        
+        uint orderNum;
     }
 
+    constructor() {
+        numOrders = 0;
+    }
+
+    uint private numOrders;
     mapping(string => Listing) private openOrders;
     
     string[] orderIds;
@@ -20,15 +25,27 @@ contract OrderBook {
     bool[] orderStatus;
     string[] orderMeta;
     uint[] prices;
+    address[] soldTo;
 
     // seller list an item that's recorded on chain
     function listItem(string memory orderId, string memory orderDetails, uint price) external {
-        openOrders[orderId] = Listing(orderId, msg.sender, orderDetails, true, price);
+        openOrders[orderId] = Listing(
+            orderId,
+            msg.sender,
+            orderDetails,
+            true,
+            price,
+            numOrders
+        );
+
         orderIds.push(orderId);
         sellers.push(msg.sender);
         orderStatus.push(true);
         orderMeta.push(orderDetails);
         prices.push(price);
+        soldTo.push(address(0));
+
+        numOrders++;
     }
 
     // buyer accepts an order. pays the money, and emit an order confirmation
@@ -50,6 +67,9 @@ contract OrderBook {
             openOrders[openOrderId].orderDetailsMetadata,
             openOrders[openOrderId].price
         );
+
+        soldTo[openOrders[openOrderId].orderNum] = msg.sender;
+        orderStatus[openOrders[openOrderId].orderNum] = false;
     }
 
     // Getter functions that we can use to query blockchain data!
@@ -62,9 +82,10 @@ contract OrderBook {
         address[] memory,
         bool[] memory,
         string[] memory,
-        uint[] memory
+        uint[] memory,
+        address[] memory
     ) {
-        return (orderIds, sellers, orderStatus, orderMeta, prices);
+        return ( orderIds, sellers, orderStatus, orderMeta, prices, soldTo);
     }
 
     // private functions

@@ -20,7 +20,7 @@ export async function getOrderById(id: string) {
         return null;
     }
 
-    const { isOpen, seller, orderId, orderDetailsMetadata, price } = orderDetails;
+    const { isOpen, seller, orderId, orderDetailsMetadata, price, soldTo } = orderDetails;
     const { imageSrc, ...metadata } = await readMetadataFromIPFS(orderDetailsMetadata);
     const imageSrcUrl = await readImageFromIPFS(imageSrc);
 
@@ -29,6 +29,7 @@ export async function getOrderById(id: string) {
         seller,
         isOpen,
         price: price / WEIS_PER_ETHER,
+        soldTo: soldTo === "0x0000000000000000000000000000000000000000" ? null : soldTo,
         imageSrc: imageSrcUrl,
         ...metadata,
     };
@@ -53,6 +54,11 @@ export async function getOpenListingForSeller(address: string) {
 export async function getCompletedOrdersForSeller(address: string) {
     const orders = await getAllOrders();
     return orders.filter(order => order.seller == address && !order.isOpen);
+}
+
+export async function getPurchaseHistoryForBuyer(address: string) {
+    const orders = await getAllOrders();
+    return orders.filter(order => order.soldTo == address && !order.isOpen);
 }
 
 // Functions that mutates state
@@ -102,8 +108,16 @@ export const zip = async (rows) => {
             ...meta
         }
     }))
-    const formedRows = [rows[0], rows[1], rows[2], metadataWithImages, rows[4]];
+    console.log(rows);
+    const formedRows = [rows[0], rows[1], rows[2], metadataWithImages, rows[4], rows[5]];
     const zipped = formedRows[0].map((_ ,c)=>formedRows.map(row=>row[c]))
-    return zipped.map(([ id, seller, isOpen, metadata, price]) => ({id, seller, isOpen, ...metadata, price: price / WEIS_PER_ETHER}));
+    return zipped.map(([ id, seller, isOpen, metadata, price, soldTo]) => ({
+        id,
+        seller,
+        isOpen,
+        ...metadata,
+        price: price / WEIS_PER_ETHER,
+        soldTo: soldTo === "0x0000000000000000000000000000000000000000" ? null : soldTo
+    }));
 }
 
