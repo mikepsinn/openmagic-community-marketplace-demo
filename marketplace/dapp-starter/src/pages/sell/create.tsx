@@ -120,7 +120,6 @@ export default function Create() {
 														name="about"
 														rows={3}
 														className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-														placeholder="you@example.com"
 														value={description}
 														onChange={(event) => {setDescription(event.target.value)}}
 													/>

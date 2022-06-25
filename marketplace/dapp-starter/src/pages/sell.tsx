@@ -60,11 +60,11 @@ const Sell = () => {
 				<div className="max-w-md min-h-screen px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
 					<div>
 						<h3 className="mt-4 mb-4 text-xl font-medium">Your Listings</h3>
+						{ myListing.length === 0 && <span className='text-gray-500'>You do not have any listings yet</span>}
 						<div className="grid grid-cols-1 gap-3">
-							{JSON.stringify(myListing)}
-							{/* {fakeListings.map(listing => (
+							{myListing.map(listing => (
 								<ListingCard key={listing.title} listing={listing} />
-							))} */}
+							))}
 						</div>
 					</div>
 				</div>
