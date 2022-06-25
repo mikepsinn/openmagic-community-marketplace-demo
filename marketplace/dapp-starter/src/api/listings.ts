@@ -1,4 +1,16 @@
-export const listings = [
+export type listingType = {
+  id: number;
+  title: string;
+  price: string;
+  description: string;
+  seller: string;
+  imageSrc: string;
+  listPublicly: boolean;
+  communities: any[];
+  listed: number
+}
+
+export const listings = <listingType[]> [
   {
     id: 1,
     title: 'Leather Long Wallet',

@@ -1,10 +1,8 @@
 import React from 'react'
 
-import useCurrentUser from '@/hooks/useCurrentUser'
 import AssetImage from './profile/AssetImage'
 
 const ListingCard = ({ listing }) => {
-	const currentUser = useCurrentUser()
 	return (
 		<div
 			className="relative flex items-center px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm"
