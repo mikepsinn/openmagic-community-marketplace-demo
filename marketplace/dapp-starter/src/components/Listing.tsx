@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import LoadMiniProfile from './LoadMiniProfile'
 import useChat from '@/hooks/useChat'
 
+import PurchaseModal from './PurchaseModal'
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ')
@@ -14,6 +15,7 @@ function classNames(...classes) {
 
 export default function Listing({ listing }) {
 	const { setShowChat, setAddress } = useChat();
+	const [purchaseOpen, setPurchaseOpen] = useState(false)
 	
 	const router = useRouter()
 	return (
@@ -99,13 +101,14 @@ export default function Listing({ listing }) {
 							>
 								Message
 							</button>
-							<button className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-black border border-transparent rounded-md hover:bg-gray-800 focus:outline-none">
+							<button onClick={() => setPurchaseOpen(true)} className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-black border border-transparent rounded-md hover:bg-gray-800 focus:outline-none">
 								Buy Now
 							</button>
 						</div>
 					</section>
 				</div>
 			</div>
+			<PurchaseModal listing={listing} open={purchaseOpen} setOpen={setPurchaseOpen} />
 		</div>
 	)
 }

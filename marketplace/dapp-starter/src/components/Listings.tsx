@@ -26,7 +26,7 @@ export default function Listings() {
 	return (
 		<div className="bg-white">
 			<div>
-				<div className="pt-20 pb-10 ">
+				<div className="pt-20 pb-10">
 					<h1 className="text-4xl font-extrabold tracking-tight text-gray-900">New Arrivals</h1>
 					<p className="mt-4 text-base text-gray-500">
 						Checkout out the latest being sold in your communities.
