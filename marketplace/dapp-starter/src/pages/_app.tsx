@@ -8,7 +8,8 @@ import CurrentUserProvider from '@/components/providers/CurrentUserProvider';
 import LayoutHeader from '@/components/layout/LayoutHeader'
 
 const { chains, provider } = configureChains(
-	[chain.mainnet],
+	// [chain.mainnet],
+	[chain.localhost],
 	[apiProvider.infura(process.env.NEXT_PUBLIC_INFURA_ID), apiProvider.fallback()]
 )
 
