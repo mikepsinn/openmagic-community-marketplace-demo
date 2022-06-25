@@ -4,7 +4,8 @@ import { v4 as uuid } from "uuid";
 const contractAddress: string = '0x5fbdb2315678afecb367f032d93f642f64180aa3';
 import { abi } from "./abi";
 
-const web3 = new Web3(process.env.NEXT_PUBLIC_RPC_PROVIDER);
+const web3 = new Web3();
+web3.setProvider(new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_RPC_PROVIDER));
 const orderbook = new web3.eth.Contract((abi as any), contractAddress);
 
 // Getting Functions for the Address
@@ -30,6 +31,29 @@ export async function getCompletedOrdersForSeller(address: string) {
 }
 
 // Functions that mutates state
+
+export async function listItem(address: string, orderDetail: string) {
+    const orderId = uuid();
+    await (window as any).ethereum?.request({
+        method: "eth_sendTransaction",
+        params:[{
+            from: address,
+            to: contractAddress,
+            data: orderbook.methods.listItem(orderId, orderDetail).encodeABI(),
+        }]
+    })
+}
+
+export async function acceptItem(address: string, orderId: string) {
+    await (window as any).ethereum?.request({
+        method: "eth_sendTransaction",
+        params:[{
+            from: address,
+            to: contractAddress,
+            data: orderbook.methods.acceptItem(orderId).encodeABI(),
+        }]
+    })
+}
 
 // Helper Functions
 export const zip = (rows) => {
