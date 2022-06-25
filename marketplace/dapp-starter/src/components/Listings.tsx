@@ -66,7 +66,7 @@ export default function Listings() {
                   {product.name}
                 </a>
               </h3>
-              <p className="mt-1 text-sm text-gray-500 cursor-pointer"><HoverOverlay walletAddress={product.seller} /></p>
+              <div className="mt-1 text-sm text-gray-500 cursor-pointer"><HoverOverlay walletAddress={product.seller} /></div>
               <p className="mt-1 text-sm font-medium text-gray-900">{product.price}</p>
             </div>
           ))}
