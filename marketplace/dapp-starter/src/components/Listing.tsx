@@ -12,9 +12,9 @@ function classNames(...classes) {
 }
 
 export default function Listing({ listing }) {
-	const { setShowChat, setAddress } = useChat();
+	const { setShowChat, setAddress } = useChat()
 	const [purchaseOpen, setPurchaseOpen] = useState(false)
-	
+
 	const router = useRouter()
 	return (
 		<div className="bg-white">
@@ -53,7 +53,10 @@ export default function Listing({ listing }) {
 						</h2>
 
 						<div className="flex items-center">
-							<p className="text-lg text-gray-900 sm:text-xl">{listing.price}</p>
+							<p className="text-lg text-gray-900 sm:text-xl">
+							{!listing.isOpen && <span className='mr-1 text-red-600'>Sold</span>}
+								{listing.price}
+							</p>
 						</div>
 
 						<div className="mt-4 space-y-6">
@@ -86,25 +89,29 @@ export default function Listing({ listing }) {
 					</div>
 				</div>
 
-				{/* Product form */}
-				<div className="mt-10 lg:max-w-lg lg:col-start-1 lg:row-start-2 lg:self-start">
-					<section aria-labelledby="options-heading">
-						<div className="flex mt-10 space-x-2">
-							<button
-								onClick={() => {
-									setAddress(listing.seller)
-									setShowChat(true)
-								}}
-								className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-blue-800 border border-transparent rounded-md hover:bg-blue-900 focus:outline-none"
-							>
-								Message
-							</button>
-							<button onClick={() => setPurchaseOpen(true)} className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-black border border-transparent rounded-md hover:bg-gray-800 focus:outline-none">
-								Buy Now
-							</button>
-						</div>
-					</section>
-				</div>
+				{listing.isOpen && (
+					<div className="mt-10 lg:max-w-lg lg:col-start-1 lg:row-start-2 lg:self-start">
+						<section aria-labelledby="options-heading">
+							<div className="flex mt-10 space-x-2">
+								<button
+									onClick={() => {
+										setAddress(listing.seller)
+										setShowChat(true)
+									}}
+									className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-blue-800 border border-transparent rounded-md hover:bg-blue-900 focus:outline-none"
+								>
+									Message
+								</button>
+								<button
+									onClick={() => setPurchaseOpen(true)}
+									className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-black border border-transparent rounded-md hover:bg-gray-800 focus:outline-none"
+								>
+									Buy Now
+								</button>
+							</div>
+						</section>
+					</div>
+				)}
 			</div>
 			<PurchaseModal listing={listing} open={purchaseOpen} setOpen={setPurchaseOpen} />
 		</div>

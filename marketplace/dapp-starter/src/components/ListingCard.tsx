@@ -17,7 +17,7 @@ const ListingCard = ({ listing }) => {
 				<img src={listing.imageSrc} className="object-cover object-center w-full h-full cursor-pointer" />
 			</div>
 			<h3 className="mt-4 text-lg font-medium text-gray-700">
-				<a>{listing.price}</a>
+				{listing.isOpen ? <a>{listing.price}</a> : <a className='text-red-600'>Sold</a> }
 			</h3>
 			<p onClick={() => router.push(`/listing/${listing.id}`)} className="text-gray-600 cursor-pointer text-normal hover:underline">
 				{listing.title}
