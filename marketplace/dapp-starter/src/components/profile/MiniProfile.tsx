@@ -14,7 +14,9 @@ export default function MiniProfile({ profile }: { profile: ProfileType }) {
 					</div>
 				</div>
 				<div>
-					<h1 className="text-2xl font-bold text-gray-900">{profile.ensName || profile.address}</h1>
+					<h1 className="text-2xl font-bold text-gray-900">{profile.ensName || profile.address}
+					{profile.ensName && <span className='ml-2 text-sm font-normal text-gray-600'>{profile.address}</span>}
+					</h1>
 					{profile?.first_tx?.timestamp ? (
 						<p className="text-sm font-medium text-gray-500">
 							Web3 user since{' '}
@@ -32,7 +34,7 @@ export default function MiniProfile({ profile }: { profile: ProfileType }) {
 				<p>Reviews: 124</p>
 				<p>DAOs: {profile.daos.totalDaos}</p>
 				<p>POAPs: {profile.poaps.length}</p>
-				<p>NFTs: {profile.nfts.ownedNfts.length}</p>
+				<p>NFTs: {profile.nfts.ownedNfts.length==100 ? "100+" : profile.nfts.ownedNfts.length}</p>
 				<p>Writings: {profile.mirror.length}</p>
 			</div>
 		</div>
