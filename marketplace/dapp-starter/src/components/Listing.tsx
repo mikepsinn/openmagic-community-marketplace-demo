@@ -1,15 +1,19 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
+import { useState } from 'react'
 import { CheckIcon, QuestionMarkCircleIcon, StarIcon } from '@heroicons/react/solid'
 import { ShieldCheckIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import LoadMiniProfile from './LoadMiniProfile'
+
+import Chat from './Chat'
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ')
 }
 
 export default function Listing({ listing }) {
+	const [showChat, setShowChat] = useState(false)
 	const router = useRouter()
 
 	return (
@@ -85,19 +89,23 @@ export default function Listing({ listing }) {
 				{/* Product form */}
 				<div className="mt-10 lg:max-w-lg lg:col-start-1 lg:row-start-2 lg:self-start">
 					<section aria-labelledby="options-heading">
-						<form>
-							<div className="mt-10">
-								<button
-									type="submit"
-									className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
-								>
-									Buy Now
-								</button>
-							</div>
-						</form>
+						<div className="flex mt-10 space-x-2">
+							<button
+								onClick={() => {
+									setShowChat(true)
+								}}
+								className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-gray-300 border border-transparent rounded-md hover:bg-gray-400 focus:outline-none"
+							>
+								Message
+							</button>
+							<button className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-black border border-transparent rounded-md hover:bg-gray-800 focus:outline-none">
+								Buy Now
+							</button>
+						</div>
 					</section>
 				</div>
 			</div>
+			<Chat address={listing.seller} showChat={showChat} setShowChat={setShowChat} />
 		</div>
 	)
 }
