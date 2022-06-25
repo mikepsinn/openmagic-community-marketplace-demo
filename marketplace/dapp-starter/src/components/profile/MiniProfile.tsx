@@ -28,10 +28,12 @@ export default function MiniProfile({ profile }: { profile: ProfileType }) {
 				</div>
 			</div>
 			<div className="flex justify-start mt-2 space-x-6 text-sm font-medium text-gray-500">
-				<p>Total Daos: {profile.daos.totalDaos}</p>
-        <p>Total POAPs: {profile.poaps.length}</p>
-        <p>Total NFTs: {profile.nfts.ownedNfts.length}</p>
-        <p>Total Writings: {profile.mirror.length}</p>
+				<p>100% Positive Feedback</p>
+				<p>Reviews: 124</p>
+				<p>DAOs: {profile.daos.totalDaos}</p>
+				<p>POAPs: {profile.poaps.length}</p>
+				<p>NFTs: {profile.nfts.ownedNfts.length}</p>
+				<p>Writings: {profile.mirror.length}</p>
 			</div>
 		</div>
 	)

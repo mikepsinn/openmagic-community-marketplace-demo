@@ -13,7 +13,7 @@ import SBTs from './SBTs'
 import Social from './Social'
 import Writings from './Writings'
 
-const tabs = [{ name: 'Overview' }, { name: 'Listings' }]
+const tabs = [{ name: 'Overview' }, { name: 'Listings' }, { name: 'Transactions & Reviews' }]
 
 export default function FullProfile({ profile }: { profile: ProfileType }) {
 	const [activeTab, setActiveTab] = React.useState('Overview')
