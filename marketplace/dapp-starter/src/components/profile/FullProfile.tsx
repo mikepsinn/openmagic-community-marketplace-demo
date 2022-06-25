@@ -13,7 +13,7 @@ import SBTs from './SBTs'
 import Social from './Social'
 import Writings from './Writings'
 
-const tabs = [{ name: 'Overview' }, { name: 'Listings' }]
+const tabs = [{ name: 'Overview' }, { name: 'Listings' }, { name: 'Transactions & Reviews' }]
 
 export default function FullProfile({ profile }: { profile: ProfileType }) {
 	const [activeTab, setActiveTab] = React.useState('Overview')
@@ -29,18 +29,18 @@ export default function FullProfile({ profile }: { profile: ProfileType }) {
 			<div className="max-w-md px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
 				{activeTab == 'Overview' && (
 					<div>
+						<Social lens={profile.lens} profile={profile} />
+						<hr className="my-6" />
 						<Daos daos={profile.daos} />
 						<hr className="my-6" />
 						<POAPs poaps={profile.poaps} />
 						<hr className="my-6" />
-						<NFTs nfts={profile.nfts} />
-						<hr className="my-6" />
 						<SBTs sbts={[]} />
 						<hr className="my-6" />
-						<Social lens={profile.lens} profile={profile} />
-						<hr className="my-6" />
 						<Writings mirror={profile.mirror} />
-            <div className='pb-10' />
+						<hr className="my-6" />
+						<NFTs nfts={profile.nfts} />
+						<div className='pb-10' />
 					</div>
 				)}
 				{/* {activeTab == 'DAOs' && <Daos daos={profile.daos} />}

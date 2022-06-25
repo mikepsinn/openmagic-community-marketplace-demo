@@ -1,12 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import * as React from 'react'
+import AssetImage from './AssetImage'
 
 export default function NFTs({ nfts }) {
 	return (
     <div>
       <div className='flex justify-start my-4 space-x-6 text-sm font-medium text-gray-500'>
       <p>
-        Total NFTs: {nfts.ownedNfts.length}
+        Total NFTs: {nfts.ownedNfts.length==100 ? "100+" : nfts.ownedNfts.length}
       </p>
       </div>
 		<div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
@@ -16,7 +17,7 @@ export default function NFTs({ nfts }) {
 					className="relative flex items-center px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm"
 				>
 					<div className="flex-shrink-0">
-						<img className="w-10 h-10 rounded-full" src={nft.media[0].gateway} alt="" />
+						<AssetImage image={nft.media[0].gateway} />
 					</div>
 					<div className="flex-1 min-w-0">
 						<div className="focus:outline-none">
