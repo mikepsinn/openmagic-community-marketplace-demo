@@ -57,11 +57,11 @@ const Sell = () => {
 						)}
 					</div>
 				</div>
-				<div className="max-w-md min-h-screen px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
+				<div className="max-w-md px-4 mx-auto pb-96 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
 					<div>
 						<h3 className="mt-4 mb-4 text-xl font-medium">Your Listings</h3>
 						{ myListing.length === 0 && <span className='text-gray-500'>You do not have any listings yet</span>}
-						<div className="grid grid-cols-1 gap-3">
+						<div className="grid grid-cols-2 mt-6 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
 							{myListing.map(listing => (
 								<ListingCard key={listing.title} listing={listing} />
 							))}

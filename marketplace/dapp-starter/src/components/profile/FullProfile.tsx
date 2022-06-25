@@ -6,6 +6,8 @@ import MiniProfile from './MiniProfile'
 
 import TabMenu from './TabMenu'
 
+import Listings from './UsersListings'
+
 import Daos from './Daos'
 import POAPs from './POAPs'
 import NFTs from './NFTs'
@@ -43,6 +45,7 @@ export default function FullProfile({ profile }: { profile: ProfileType }) {
 						<div className="pb-10" />
 					</div>
 				)}
+				{ activeTab == 'Listings' && <Listings wallet={profile.address} />}
 				{/* {activeTab == 'DAOs' && <Daos daos={profile.daos} />}
 			{activeTab == 'POAPs' && <POAPs poaps={profile.poaps} />}
 			{activeTab == 'NFTs' && <NFTs nfts={profile.nfts} />}
