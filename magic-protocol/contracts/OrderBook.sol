@@ -12,11 +12,18 @@ contract OrderBook {
     }
 
     mapping(string => Listing) private openOrders;
+    string[] orderIds;
+    address[] sellers;
+    bool[] orderStatus;
+    string[] orderMeta;
 
     // seller list an item that's recorded on chain
-    function listItem(string memory orderId, string memory orderDetails) external returns(string memory) {
+    function listItem(string memory orderId, string memory orderDetails) external {
         openOrders[orderId] = Listing(orderId, msg.sender, orderDetails, true);
-        return orderId;
+        orderIds.push(orderId);
+        sellers.push(msg.sender);
+        orderStatus.push(true);
+        orderMeta.push(orderDetails);
     }
 
     // buyer accepts an order. pays the money, and emit an order confirmation
@@ -35,13 +42,25 @@ contract OrderBook {
         );
     }
 
+    // Getter functions that we can use to query blockchain data!
     function getOrder(string memory orderId) external view returns(Listing memory) {
         return openOrders[orderId];
     }
 
+    function exportOrders() external view returns(
+        string[] memory,
+        address[] memory,
+        bool[] memory,
+        string[] memory
+    ) {
+        return (orderIds, sellers, orderStatus, orderMeta);
+    }
+
+    // private functions
     function _checkOrderOpen(string memory orderIdToCheck) internal view returns (bool) {
         return openOrders[orderIdToCheck].isOpen;
     }
 
+    // events
     event OrderConfirmed(address indexed seller, address indexed buyer, string indexed orderId, string metadata);
 }

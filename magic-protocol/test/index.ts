@@ -58,5 +58,17 @@ describe("OrderBook", () => {
         ).to.be.revertedWith("Listing accepted must be open!")
     });
 
+    it('getting all the orders', async () => {
+        const orderId1 = uuid();
+        const orderId2 = uuid();
+
+        await orderbook.connect(addr1).listItem(orderId1, "item 1");
+        await orderbook.connect(addr1).listItem(orderId2, "item 2");
+
+        const orders = await orderbook.exportOrders();
+        expect(orders.length).to.equal(4);
+        expect(orders[1].length).to.equal(2);
+    })
+
   })
 })
