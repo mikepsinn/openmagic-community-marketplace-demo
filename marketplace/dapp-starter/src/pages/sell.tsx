@@ -2,6 +2,7 @@ import React from 'react'
 import MiniProfile from '@/components/profile/MiniProfile'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import ListingCard from '@/components/ListingCard'
+import { useRouter } from 'next/router'
 
 const fakeListings = [
 	{
@@ -22,14 +23,18 @@ const fakeListings = [
 
 const Sell = () => {
 	const currentUser = useCurrentUser()
+  const router = useRouter();
 	return (
 		<main>
 			<div className="bg-gray-50">
 				<div className="bg-white border-b border-gray-200">
 					<div className="flex items-center justify-between max-w-md px-4 py-10 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
 						<div className="">
-							<h3 className="text-xl font-medium">Sell to Trusted Buyers</h3>
-							<button className="px-4 py-2 mt-4 text-sm text-white bg-black rounded hover:bg-gray-800">
+							<h3 className="mb-4 text-xl font-medium">Sell to Trusted Buyers</h3>
+							<button className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md shadow-sm hover:bg-gray-800 focus:outline-none"
+              onClick={() => {
+                router.push("/sell/create")
+              }}>
 								+ Create New Listing
 							</button>
 						</div>

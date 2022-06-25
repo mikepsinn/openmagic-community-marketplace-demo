@@ -1,31 +1,42 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
+import { useRouter } from 'next/router'
+import Communities from '@/components/Communities'
+import useCurrentUser from '@/hooks/useCurrentUser'
+
 export default function Create() {
+	const router = useRouter()
+	const currentUser = useCurrentUser()
+
 	return (
 		<>
-			<div className="bg-gray-50">
+			<div className="pb-10 bg-gray-50">
 				<div className="flex items-center justify-between max-w-md px-4 py-10 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
-					<div className="p-4 ">
+					<div className="">
+						<div className="mb-6">
+							<button
+								onClick={() => {
+									router.push('/sell')
+								}}
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									className="w-5 h-5"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path
+										fillRule="evenodd"
+										d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z"
+										clipRule="evenodd"
+									/>
+								</svg>
+							</button>
+						</div>
 						<div className="md:grid md:grid-cols-3 md:gap-6">
 							<div className="md:col-span-1">
 								<div className="px-4 sm:px-0">
 									<h3 className="text-lg font-medium leading-6 text-gray-900">Create Listing</h3>
 									<p className="mt-1 text-sm text-gray-600">
-										This information will be displayed publicly so be careful what you share.
+                    Create a listing that everyone can see, or only people who are in your communities.
 									</p>
 								</div>
 							</div>
@@ -33,6 +44,34 @@ export default function Create() {
 								<form action="#" method="POST">
 									<div className="shadow sm:rounded-md sm:overflow-hidden">
 										<div className="px-4 py-5 space-y-6 bg-white sm:p-6">
+											<div className="col-span-6 sm:col-span-4">
+												<label
+													htmlFor="title"
+													className="block text-sm font-medium text-gray-700"
+												>
+													Title
+												</label>
+												<input
+													type="text"
+													name="title"
+													id="title"
+													className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+												/>
+											</div>
+											<div className="col-span-6 sm:col-span-4">
+												<label
+													htmlFor="price"
+													className="block text-sm font-medium text-gray-700"
+												>
+													Price
+												</label>
+												<input
+													type="text"
+													name="price"
+													id="price"
+													className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+												/>
+											</div>
 											<div>
 												<label
 													htmlFor="about"
@@ -51,61 +90,9 @@ export default function Create() {
 													/>
 												</div>
 											</div>
-											<div className="col-span-6 sm:col-span-4">
-												<label
-													htmlFor="email-address"
-													className="block text-sm font-medium text-gray-700"
-												>
-													Email address
-												</label>
-												<input
-													type="text"
-													name="email-address"
-													id="email-address"
-													autoComplete="email"
-													className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-												/>
-											</div>
-											<div className="col-span-6 sm:col-span-4">
-												<label
-													htmlFor="email-address"
-													className="block text-sm font-medium text-gray-700"
-												>
-													Email address
-												</label>
-												<input
-													type="text"
-													name="email-address"
-													id="email-address"
-													autoComplete="email"
-													className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-												/>
-											</div>
-
-											<div>
-												<label className="block text-sm font-medium text-gray-700">Photo</label>
-												<div className="flex items-center mt-1">
-													<span className="inline-block w-12 h-12 overflow-hidden bg-gray-100 rounded-full">
-														<svg
-															className="w-full h-full text-gray-300"
-															fill="currentColor"
-															viewBox="0 0 24 24"
-														>
-															<path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-														</svg>
-													</span>
-													<button
-														type="button"
-														className="px-3 py-2 ml-5 text-sm font-medium leading-4 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-													>
-														Change
-													</button>
-												</div>
-											</div>
-
 											<div>
 												<label className="block text-sm font-medium text-gray-700">
-													Cover photo
+													Photos
 												</label>
 												<div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
 													<div className="space-y-1 text-center">
@@ -145,12 +132,41 @@ export default function Create() {
 												</div>
 											</div>
 										</div>
+										<div className="px-4 py-5 space-y-6 bg-gray-50 sm:p-6">
+											<div>
+												<p className="block text-sm font-medium text-gray-700">List Publicly</p>
+												<div className="flex items-start mt-4">
+													<div className="flex items-center h-5">
+														<input
+															id="public"
+															name="public"
+															type="checkbox"
+															className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+														/>
+													</div>
+													<div className="ml-3 text-sm">
+														<label htmlFor="public" className="font-medium text-gray-700">
+															Public Listing
+														</label>
+														<p className="text-gray-500">
+															Anyone can view and place an offer on your posting.
+														</p>
+													</div>
+												</div>
+											</div>
+											<div>
+												<p className="block text-sm font-medium text-gray-700">
+													List to your Communities
+												</p>
+												{currentUser && <Communities profile={currentUser} />}
+											</div>
+										</div>
 										<div className="px-4 py-3 text-right bg-gray-50 sm:px-6">
 											<button
 												type="submit"
-												className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+												className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md shadow-sm hover:bg-gray-800 focus:outline-none"
 											>
-												Save
+												Publish
 											</button>
 										</div>
 									</div>
