@@ -6,6 +6,7 @@ import { ShieldCheckIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import LoadMiniProfile from './LoadMiniProfile'
 
+
 import Chat from './Chat'
 
 function classNames(...classes) {

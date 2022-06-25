@@ -1,15 +1,25 @@
 import * as React from 'react'
 import Iframe from 'react-iframe'
+import truncateEthAddress from 'truncate-eth-address'
 
 export default function Chat({ address, showChat, setShowChat }) {
+	const [hide, setHide] = React.useState(false)
 
 	if (!showChat) return null
 
 	return (
-		<div className="fixed bottom-0 overflow-hidden bg-blue-800 shadow-md rounded-t-md right-10">
-			<div className="flex justify-end p-4 text-white">
+		<div
+			onClick={() => {
+				setHide(curHide => !curHide)
+			}}
+			className="fixed bottom-0 overflow-hidden bg-blue-800 shadow-md cursor-default rounded-t-md right-10"
+		>
+			<div className="flex justify-between p-4 text-white">
+				<div>{truncateEthAddress(address)}</div>
 				<button
-					onClick={() => {
+					onClick={e => {
+						e.preventDefault()
+						e.stopPropagation()
 						setShowChat(false)
 					}}
 				>
@@ -22,7 +32,16 @@ export default function Chat({ address, showChat, setShowChat }) {
 					</svg>
 				</button>
 			</div>
-			<Iframe url={`http://localhost:3001/dm/${address}`} width="450px" height="550px" display="block" position="relative" />
+			<div className={hide && 'hidden'}>
+				<Iframe
+					url={`http://localhost:3001/dm/${address}`}
+					width="450px"
+					height="550px"
+					display="block"
+					position="relative"
+				/>
+			</div>
+			{hide && <div className="flex w-72"></div>}
 		</div>
 	)
 }
