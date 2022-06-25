@@ -14,12 +14,8 @@ const arweave = Arweave.init({
  * }
  */
 export async function getMirrorArticleFromHash(hash: string) {
-    const dataStr= await arweave.transactions.getData(
-        'AJWCPMH4CCQuYBCj2VG6CHH60u-ZE-nqPrZTksF80bQ', 
-        { decode: true, string: true }
-    )
+    const dataStr= await arweave.transactions.getData( hash, { decode: true, string: true })
     const data = JSON.parse(dataStr as string)
-    console.log(data)
     return data;
 }
 
