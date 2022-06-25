@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next';
 import * as React from 'react';
+import { useEffect } from 'react';
 
 import { ProfileType } from '@/api/walletScan';
 import Listing from "@/components/Listing";
@@ -7,6 +8,7 @@ import Listing from "@/components/Listing";
 import Loading from '@/components/Loading';
 
 import { listings } from '@/api/listings';
+import { getOrderById } from '@/api/web3/contract';
 
 const Failed = () => {
   return (
@@ -32,14 +34,17 @@ export default function Item({ itemId }: ItemProps) {
 
   React.useEffect(() => {
     const getListing = async () => {
-    if (itemId) {
-        const foundListing = listings.find(listing => (listing.id == parseInt(itemId)));
-        if (foundListing) {
-          setListing(foundListing);
-        } else {
-          setFailed(true);
-        }
-        setLoading(false);
+      if (itemId) {
+        setLoading(true);
+        getOrderById(itemId)
+          .then(item => {
+            if (item) {
+              setListing(item)
+            } else {
+              setFailed(true);
+            }
+            setLoading(false)
+          });
       }
     }
     getListing();

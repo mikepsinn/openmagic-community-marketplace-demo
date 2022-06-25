@@ -10,6 +10,27 @@ web3.setProvider(new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_RPC_PRO
 const orderbook = new web3.eth.Contract((abi as any), contractAddress);
 
 // Getting Functions for the Address
+export async function getOrderById(id: string) {
+    const orderDetails = await orderbook.methods.getOrder(id).call();
+
+    // no order exists. blockchain is too shy to report the error
+    if (orderDetails.seller === "0x0000000000000000000000000000000000000000") {
+        return null;
+    }
+
+    const { isOpen, seller, orderId, orderDetailsMetadata } = orderDetails;
+    const { imageSrc, ...metadata } = await readMetadataFromIPFS(orderDetailsMetadata);
+    const imageSrcUrl = await readImageFromIPFS(imageSrc);
+
+    return {
+        id: orderId,
+        seller,
+        isOpen,
+        imageSrc: imageSrcUrl,
+        ...metadata,
+    };
+}
+
 export async function getAllOrders() {
     const flattened = await orderbook.methods.exportOrders().call();
     const orders = await zip(flattened);
@@ -61,6 +82,7 @@ export const zip = async (rows) => {
     const loadedMetadata = await Promise.all(rows[3].map(ipfsHash => {
         return readMetadataFromIPFS(ipfsHash)
     }));
+    
     const metadataWithImages = await Promise.all(loadedMetadata.map(async (metadata) => {
         const { imageSrc , ...meta } = metadata 
         const imageSrcUrl = await readImageFromIPFS(imageSrc);

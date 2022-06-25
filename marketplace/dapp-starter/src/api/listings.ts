@@ -14,6 +14,9 @@ export type listingType = {
   timestamp: number
 }
 
+
+/** DEPRECATED BELOW */
+
 export type listingTypeDeprecated = {
   id: number;
   title: string;
