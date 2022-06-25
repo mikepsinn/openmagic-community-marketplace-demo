@@ -1,4 +1,20 @@
 export type listingType = {
+  // data stored on blockchain
+  id: string;
+  seller: string;
+  isOpen: boolean;
+
+  // data stored in IPFS metadata
+  title: string;
+  price: string;
+  description: string;
+  imageSrc: string;
+  listPublicly: boolean;
+  communities: any[];
+  timestamp: number
+}
+
+export type listingTypeDeprecated = {
   id: number;
   title: string;
   price: string;
@@ -10,7 +26,7 @@ export type listingType = {
   listed: number
 }
 
-export const listings = <listingType[]> [
+export const listings = <listingTypeDeprecated[]> [
   {
     id: 1,
     title: 'Leather Long Wallet',

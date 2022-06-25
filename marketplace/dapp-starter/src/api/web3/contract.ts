@@ -1,8 +1,8 @@
 import Web3 from "web3";
 import { v4 as uuid } from "uuid"; 
-import { uploadMetadataToIPFS, readMetadataFromIPFS } from "./ipfs";
+import { uploadMetadataToIPFS, readMetadataFromIPFS, readImageFromIPFS } from "./ipfs";
 
-const contractAddress: string = '0x5fbdb2315678afecb367f032d93f642f64180aa3';
+const contractAddress: string = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 import { abi } from "./abi";
 
 const web3 = new Web3();
@@ -32,7 +32,6 @@ export async function getCompletedOrdersForSeller(address: string) {
 }
 
 // Functions that mutates state
-
 export async function listItem(address: string, orderMetadata: any) {
     const orderId = uuid();
     const orderDetailIPFS = await uploadMetadataToIPFS({ id: orderId, ...orderMetadata });
@@ -59,9 +58,20 @@ export async function acceptItem(address: string, orderId: string) {
 
 // Helper Functions
 export const zip = async (rows) => {
-    const loadedMetadata = await Promise.all(rows[3].map(ipfsHash => readMetadataFromIPFS(ipfsHash)));
-    const formedRows = [rows[0], rows[1], rows[2], loadedMetadata]
+    console.log(rows)
+    const loadedMetadata = await Promise.all(rows[3].map(ipfsHash => {
+        return readMetadataFromIPFS(ipfsHash)
+    }));
+    const metadataWithImages = await Promise.all(loadedMetadata.map(async (metadata) => {
+        const { imageSrc , ...meta } = metadata 
+        const imageSrcUrl = await readImageFromIPFS(imageSrc);
+        return {
+            imageSrc: imageSrcUrl,
+            ...meta
+        }
+    }))
+    const formedRows = [rows[0], rows[1], rows[2], metadataWithImages];
     const zipped = formedRows[0].map((_ ,c)=>formedRows.map(row=>row[c]))
-    return zipped.map(([ id, seller, isOpen, metadata]) => ({id, seller, isOpen, metadata}));
+    return zipped.map(([ id, seller, isOpen, metadata]) => ({id, seller, isOpen, ...metadata}));
 }
 

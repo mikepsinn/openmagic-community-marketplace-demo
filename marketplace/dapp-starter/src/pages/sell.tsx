@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import MiniProfile from '@/components/profile/MiniProfile'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import ListingCard from '@/components/ListingCard'
 import { useRouter } from 'next/router'
+
+import { getHistoryForAddress } from "@/api/web3/contract"
 
 const fakeListings = [
 	{
@@ -22,8 +24,17 @@ const fakeListings = [
 ]
 
 const Sell = () => {
+	const [myListing, setMyListing] = useState<any[]>([]);
+	
 	const currentUser = useCurrentUser()
-  const router = useRouter();
+	const router = useRouter();
+	
+	useEffect(() => {
+		if (currentUser) {
+			getHistoryForAddress(currentUser.address)
+				.then(items => setMyListing(items));
+		}
+	}, [currentUser])
 	return (
 		<main>
 			<div className="bg-gray-50">
@@ -50,9 +61,10 @@ const Sell = () => {
 					<div>
 						<h3 className="mt-4 mb-4 text-xl font-medium">Your Listings</h3>
 						<div className="grid grid-cols-1 gap-3">
-							{fakeListings.map(listing => (
+							{JSON.stringify(myListing)}
+							{/* {fakeListings.map(listing => (
 								<ListingCard key={listing.title} listing={listing} />
-							))}
+							))} */}
 						</div>
 					</div>
 				</div>

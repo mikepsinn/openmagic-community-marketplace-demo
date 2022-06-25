@@ -1,10 +1,41 @@
+import { useState } from "react";
 import { useRouter } from 'next/router'
+
 import Communities from '@/components/Communities'
 import useCurrentUser from '@/hooks/useCurrentUser'
 
+import { uploadImageToIPFS } from "@/api/web3/ipfs";
+import { listItem } from "@/api/web3/contract";
+
 export default function Create() {
-	const router = useRouter()
-	const currentUser = useCurrentUser()
+	const router = useRouter();
+	const currentUser = useCurrentUser();
+
+	const [title, setTitle] = useState<string>('');
+	const [price, setPrice] = useState<string>('');
+	const [description, setDescription] = useState<string>('');
+	const [imageSrc, setImageSrc] = useState<string>('');
+
+	const handleImageUpload = async (file) => {
+		const imageCID = await uploadImageToIPFS(file);
+		setImageSrc(imageCID);
+	}
+
+	const handleSubmit = async () => {
+		if (currentUser) {
+			const metadata = {		
+				title,
+				price,
+				description,
+				imageSrc,
+				listPublicly: true,
+				communities: [],
+				timestamp: Math.floor(Date.now() / 1000)
+			};
+
+			await listItem(currentUser.address, metadata);
+		}
+	}
 
 	return (
 		<>
@@ -41,7 +72,7 @@ export default function Create() {
 								</div>
 							</div>
 							<div className="mt-5 md:mt-0 md:col-span-2">
-								<form method="POST">
+								{/* <form method="POST"> */}
 									<div className="shadow sm:rounded-md sm:overflow-hidden">
 										<div className="px-4 py-5 space-y-6 bg-white sm:p-6">
 											<div className="col-span-6 sm:col-span-4">
@@ -55,6 +86,8 @@ export default function Create() {
 													type="text"
 													name="title"
 													id="title"
+													value={title}
+													onChange={(event) => {setTitle(event.target.value)}}
 													className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 												/>
 											</div>
@@ -69,6 +102,8 @@ export default function Create() {
 													type="text"
 													name="price"
 													id="price"
+													value={price}
+													onChange={(event) => {setPrice(event.target.value)}}
 													className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 												/>
 											</div>
@@ -86,7 +121,8 @@ export default function Create() {
 														rows={3}
 														className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 														placeholder="you@example.com"
-														defaultValue={''}
+														value={description}
+														onChange={(event) => {setDescription(event.target.value)}}
 													/>
 												</div>
 											</div>
@@ -121,6 +157,7 @@ export default function Create() {
 																	name="file-upload"
 																	type="file"
 																	className="sr-only"
+																	onChange={(e) => handleImageUpload(e.target.files[0])}
 																/>
 															</label>
 															<p className="pl-1">or drag and drop</p>
@@ -163,14 +200,14 @@ export default function Create() {
 										</div>
 										<div className="px-4 py-3 text-right bg-gray-50 sm:px-6">
 											<button
-												type="submit"
 												className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md shadow-sm hover:bg-gray-800 focus:outline-none"
+												onClick={handleSubmit}
 											>
 												Publish
 											</button>
 										</div>
 									</div>
-								</form>
+								{/* </form> */}
 							</div>
 						</div>
 					</div>

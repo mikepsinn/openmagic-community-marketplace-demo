@@ -12,6 +12,7 @@ contract OrderBook {
     }
 
     mapping(string => Listing) private openOrders;
+    
     string[] orderIds;
     address[] sellers;
     bool[] orderStatus;

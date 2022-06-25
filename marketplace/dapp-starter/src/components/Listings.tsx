@@ -1,12 +1,35 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
+import { useEffect, useState } from "react";
 
 import { useRouter } from "next/router"
 import HoverOverlay from "./HoverOverlay"
 
+import { listingType } from "@/api/listings";
 
-export default function Listings({ listings }) {
+import { getAllOrders } from "@/api/web3/contract";
+
+export default function Listings() {
   const router = useRouter();
+  const [listings, setListings] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!loading) {
+      setLoading(true);
+      getAllOrders()
+        .then(items => {
+          setListings(items);
+          setLoading(false);
+        });
+    }
+  }, [])
+
+  return (
+    <div>
+      {JSON.stringify(listings)}
+    </div>
+  )
   return (
     <div className="bg-white">
       <div>
