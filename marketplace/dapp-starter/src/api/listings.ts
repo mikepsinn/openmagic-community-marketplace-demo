@@ -4,6 +4,7 @@ export type listingType = {
   seller: string;
   isOpen: boolean;
   price: number;
+  soldTo: string;
 
   // data stored in IPFS metadata
   title: string;
