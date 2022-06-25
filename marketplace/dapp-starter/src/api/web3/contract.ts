@@ -2,9 +2,11 @@ import Web3 from "web3";
 import { v4 as uuid } from "uuid"; 
 import { uploadMetadataToIPFS, readMetadataFromIPFS, readImageFromIPFS } from "./ipfs";
 
-const contractAddress: string = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 import { abi } from "./abi";
 
+export const WEIS_PER_ETHER = 1000000000000000000;
+
+const contractAddress: string = '0x5fbdb2315678afecb367f032d93f642f64180aa3';
 const web3 = new Web3();
 web3.setProvider(new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_RPC_PROVIDER));
 const orderbook = new web3.eth.Contract((abi as any), contractAddress);
@@ -18,7 +20,7 @@ export async function getOrderById(id: string) {
         return null;
     }
 
-    const { isOpen, seller, orderId, orderDetailsMetadata } = orderDetails;
+    const { isOpen, seller, orderId, orderDetailsMetadata, price } = orderDetails;
     const { imageSrc, ...metadata } = await readMetadataFromIPFS(orderDetailsMetadata);
     const imageSrcUrl = await readImageFromIPFS(imageSrc);
 
@@ -26,6 +28,7 @@ export async function getOrderById(id: string) {
         id: orderId,
         seller,
         isOpen,
+        price: price / WEIS_PER_ETHER,
         imageSrc: imageSrcUrl,
         ...metadata,
     };
@@ -53,7 +56,8 @@ export async function getCompletedOrdersForSeller(address: string) {
 }
 
 // Functions that mutates state
-export async function listItem(address: string, orderMetadata: any) {
+export async function listItem(address: string, orderMetadata: any, price: number) {
+    console.log('calling list item!')
     const orderId = uuid();
     const orderDetailIPFS = await uploadMetadataToIPFS({ id: orderId, ...orderMetadata });
     await (window as any).ethereum?.request({
@@ -61,17 +65,24 @@ export async function listItem(address: string, orderMetadata: any) {
         params:[{
             from: address,
             to: contractAddress,
-            data: orderbook.methods.listItem(orderId, orderDetailIPFS).encodeABI(),
+            data: orderbook.methods.listItem(
+                orderId,
+                orderDetailIPFS,
+                // price
+                // WEIS_PER_ETHER
+                web3.utils.numberToHex(price * WEIS_PER_ETHER)
+            ).encodeABI(),
         }]
     });
 }
 
-export async function acceptItem(address: string, orderId: string) {
+export async function acceptItem(address: string, orderId: string, price: number) {
     await (window as any).ethereum?.request({
         method: "eth_sendTransaction",
         params:[{
             from: address,
             to: contractAddress,
+            value: web3.utils.numberToHex(price * WEIS_PER_ETHER),
             data: orderbook.methods.acceptItem(orderId).encodeABI(),
         }]
     })
@@ -91,8 +102,8 @@ export const zip = async (rows) => {
             ...meta
         }
     }))
-    const formedRows = [rows[0], rows[1], rows[2], metadataWithImages];
+    const formedRows = [rows[0], rows[1], rows[2], metadataWithImages, rows[4]];
     const zipped = formedRows[0].map((_ ,c)=>formedRows.map(row=>row[c]))
-    return zipped.map(([ id, seller, isOpen, metadata]) => ({id, seller, isOpen, ...metadata}));
+    return zipped.map(([ id, seller, isOpen, metadata, price]) => ({id, seller, isOpen, ...metadata, price: price / WEIS_PER_ETHER}));
 }
 

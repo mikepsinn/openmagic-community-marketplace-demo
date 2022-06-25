@@ -2,6 +2,9 @@ import { Fragment, useState } from 'react'
 import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 
+import { acceptItem } from '@/api/web3/contract'
+import useCurrentUser from '@/hooks/useCurrentUser';
+
 import truncateEthAddress from 'truncate-eth-address'
 
 function classNames(...classes) {
@@ -10,6 +13,14 @@ function classNames(...classes) {
 
 export default function PurchaseModal({ open, setOpen, listing }) {
 	const [address, setAddress] = useState('')
+	const currentUser = useCurrentUser()
+
+	const handlePurchase = async () => {
+		console.log(listing.id)
+		if (currentUser.address) {
+			await acceptItem(currentUser.address, listing.id, listing.price);
+		}
+	}
 
 	return (
 		<Transition.Root show={open} as={Fragment}>
@@ -104,6 +115,7 @@ export default function PurchaseModal({ open, setOpen, listing }) {
 													<button
 														type="submit"
 														className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-black border border-transparent rounded-md hover:bg-gray-800 focus:outline-none"
+														onClick={handlePurchase}
 													>
 														Purchase
 													</button>

@@ -1,8 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import { useState } from 'react'
-import { CheckIcon, QuestionMarkCircleIcon, StarIcon } from '@heroicons/react/solid'
-import { ShieldCheckIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import LoadMiniProfile from './LoadMiniProfile'
 import useChat from '@/hooks/useChat'

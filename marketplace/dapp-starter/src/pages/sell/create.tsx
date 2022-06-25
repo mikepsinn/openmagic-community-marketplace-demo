@@ -14,7 +14,7 @@ export default function Create() {
 	const currentUser = useCurrentUser()
 
 	const [title, setTitle] = useState<string>('')
-	const [price, setPrice] = useState<string>('')
+	const [price, setPrice] = useState<number>(0)
 	const [description, setDescription] = useState<string>('')
 	const [imageSrc, setImageSrc] = useState<string>('')
 	const [imageSrcUrl, setImageSrcUrl] = useState<string>('')
@@ -31,7 +31,6 @@ export default function Create() {
 		if (currentUser) {
 			const metadata = {
 				title,
-				price,
 				description,
 				imageSrc,
 				listPublicly: true,
@@ -39,7 +38,7 @@ export default function Create() {
 				timestamp: Math.floor(Date.now() / 1000),
 			}
 
-			await listItem(currentUser.address, metadata)
+			await listItem(currentUser.address, metadata, price)
 		}
 	}
 
@@ -102,12 +101,14 @@ export default function Create() {
 												Price
 											</label>
 											<input
-												type="text"
+												type="number"
+												step="0.000000000000000001"
+												min="0"
 												name="price"
 												id="price"
 												value={price}
 												onChange={event => {
-													setPrice(event.target.value)
+													setPrice(parseFloat(event.target.value))
 												}}
 												className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 											/>

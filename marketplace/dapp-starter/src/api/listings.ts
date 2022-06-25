@@ -3,10 +3,10 @@ export type listingType = {
   id: string;
   seller: string;
   isOpen: boolean;
+  price: number;
 
   // data stored in IPFS metadata
   title: string;
-  price: string;
   description: string;
   imageSrc: string;
   listPublicly: boolean;

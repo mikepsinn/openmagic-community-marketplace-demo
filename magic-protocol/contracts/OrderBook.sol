@@ -9,6 +9,8 @@ contract OrderBook {
         address seller;
         string orderDetailsMetadata;
         bool isOpen;
+        uint price;
+        
     }
 
     mapping(string => Listing) private openOrders;
@@ -17,29 +19,36 @@ contract OrderBook {
     address[] sellers;
     bool[] orderStatus;
     string[] orderMeta;
+    uint[] prices;
 
     // seller list an item that's recorded on chain
-    function listItem(string memory orderId, string memory orderDetails) external {
-        openOrders[orderId] = Listing(orderId, msg.sender, orderDetails, true);
+    function listItem(string memory orderId, string memory orderDetails, uint price) external {
+        openOrders[orderId] = Listing(orderId, msg.sender, orderDetails, true, price);
         orderIds.push(orderId);
         sellers.push(msg.sender);
         orderStatus.push(true);
         orderMeta.push(orderDetails);
+        prices.push(price);
     }
 
     // buyer accepts an order. pays the money, and emit an order confirmation
-    function acceptItem(string memory openOrderId) external {
-        // need to assert that the order is still open
+    function acceptItem(string memory openOrderId) external payable {
+        // assert that the order is still open
         require(_checkOrderOpen(openOrderId), "Listing accepted must be open!");
-
-        // need to assert that the person buying is not the person selling
+        // assert that the person buying is not the person selling
         require(msg.sender != openOrders[openOrderId].seller, "seller cannot self-purchase");        
+        // assert that price is right
+        require(msg.value == openOrders[openOrderId].price, "wrong price listed");
+
         openOrders[openOrderId].isOpen = false;
+        payable(openOrders[openOrderId].seller).transfer(openOrders[openOrderId].price); // seller gets paid.
+        
         emit OrderConfirmed(
             openOrders[openOrderId].seller,
             msg.sender,
             openOrderId,
-            openOrders[openOrderId].orderDetailsMetadata
+            openOrders[openOrderId].orderDetailsMetadata,
+            openOrders[openOrderId].price
         );
     }
 
@@ -52,9 +61,10 @@ contract OrderBook {
         string[] memory,
         address[] memory,
         bool[] memory,
-        string[] memory
+        string[] memory,
+        uint[] memory
     ) {
-        return (orderIds, sellers, orderStatus, orderMeta);
+        return (orderIds, sellers, orderStatus, orderMeta, prices);
     }
 
     // private functions
@@ -63,5 +73,5 @@ contract OrderBook {
     }
 
     // events
-    event OrderConfirmed(address indexed seller, address indexed buyer, string indexed orderId, string metadata);
+    event OrderConfirmed(address indexed seller, address indexed buyer, string indexed orderId, string metadata, uint price);
 }
