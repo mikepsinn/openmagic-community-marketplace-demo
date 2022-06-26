@@ -20,7 +20,8 @@ export default function Create() {
 	const [description, setDescription] = useState<string>('')
 	const [imageSrc, setImageSrc] = useState<string>('')
 	const [imageSrcUrl, setImageSrcUrl] = useState<string>('')
-	const [listPublic, setListPublic] = useState(false)
+	const [listPublic, setListPublic] = useState(false);
+	const [communities, setCommunities] = useState<any>([]);
 
 	const handleImageUpload = async file => {
 		const imageCID = await uploadImageToIPFS(file)
@@ -35,14 +36,32 @@ export default function Create() {
 				title,
 				description,
 				imageSrc,
-				listPublicly: true,
-				communities: [],
+				listPublicly: listPublic,
+				communities,
 				timestamp: Math.floor(Date.now() / 1000),
 			}
 			toast("Confirm transaction in Metamask");
 			await listItem(currentUser.address, metadata, price)
 			toast.success("Successfully listed! 🎉");
 			router.push("/sell")
+		}
+	}
+	
+	const handleOnListPublic = async () => {
+		setListPublic(!listPublic);
+		setCommunities([]);
+	}
+
+	const handleCommunitiesChanged = async ({ title, checked }) => {
+		if (checked) {
+			communities.push(title);
+			const newCommunities = Array.from(new Set(communities))
+			setCommunities(newCommunities)
+		} else {
+			const newCommunities = communities.filter(
+				c => c.name !== title && c?.event?.name !== title // account for poap as well
+			)
+			setCommunities(newCommunities);
 		}
 	}
 
@@ -187,7 +206,7 @@ export default function Create() {
 														type="checkbox"
 														checked={listPublic}
 														className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-														onChange={() => setListPublic(!listPublic)}
+														onChange={handleOnListPublic}
 													/>
 												</div>
 												<div className="ml-3 text-sm">
@@ -205,7 +224,10 @@ export default function Create() {
 												<p className="block text-sm font-medium text-gray-700">
 													List to your Communities
 												</p>
-												{currentUser && <Communities profile={currentUser} />}
+												{currentUser && <Communities
+													profile={currentUser}
+													handleCommunitiesChanged={handleCommunitiesChanged}
+												/>}
 											</div>
 										)}
 									</div>
