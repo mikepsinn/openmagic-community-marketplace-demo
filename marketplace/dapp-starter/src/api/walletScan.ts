@@ -76,7 +76,8 @@ export const getWalletInfo = async (address): Promise<ProfileType> => {
     }
     
     return wallet;
-  } catch {
+  } catch (e) {
+    console.log(e);
     return null;
   }
 }
