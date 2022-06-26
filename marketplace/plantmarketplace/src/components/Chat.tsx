@@ -11,7 +11,7 @@ export default function Chat({ address, showChat, setShowChat, hide, setHide }) 
 			onClick={() => {
 				setHide(curHide => !curHide)
 			}}
-			className="fixed bottom-0 overflow-hidden bg-blue-800 shadow-md cursor-default rounded-t-md right-10"
+			className="fixed bottom-0 overflow-hidden bg-green-800 shadow-md cursor-default rounded-t-md right-10"
 		>
 			<div className="flex justify-between p-4 text-white">
 				<div>{truncateEthAddress(address)}</div>

@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 import ListingCard from './ListingCard'
 
-import { getAllActiveOrdersVisibleToWallet } from '@/api/web3/contract'
+import { getAllActiveOrdersVisibleToWalletAndPlants } from '@/api/web3/contract'
 import useCurrentUser from '@/hooks/useCurrentUser'
 
 export default function Listings() {
@@ -18,7 +18,7 @@ export default function Listings() {
 	useEffect(() => {
 		if (!loading && curUser) {
 			setLoading(true)
-			getAllActiveOrdersVisibleToWallet(curUser).then(items => {
+			getAllActiveOrdersVisibleToWalletAndPlants(curUser).then(items => {
 				setListings(items)
 				setLoading(false)
 			})
@@ -26,12 +26,12 @@ export default function Listings() {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [curUser])
 	return (
-		<div className="bg-white">
+		<div>
 			<div>
-				<div className="pt-20 pb-10">
-					<h1 className="text-4xl font-extrabold tracking-tight text-gray-900">New Arrivals</h1>
-					<p className="mt-4 text-base text-gray-500">
-						Checkout out the latest being sold in your communities.
+				<div className="pt-20 pb-10 text-center bg-green-800">
+					<h1 className="text-4xl font-extrabold tracking-tight text-green-100">Plants Only</h1>
+					<p className="mt-4 text-base text-green-200">
+						The marketplace for luxury house plants.
 					</p>
 				</div>
 				<div className="grid grid-cols-2 mt-6 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">

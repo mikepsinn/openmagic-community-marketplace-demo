@@ -9,7 +9,7 @@ import { isAccessible } from "@/lib/profile";
 export const WEIS_PER_ETHER = 1000000000000000000;
 export const DOLLARS_PER_ETHER = 1000;
 
-const contractAddress: string = '0x5EEe2655a8665E3a292bA5B15b60Ae7c99038e73';
+const contractAddress: string = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 const web3 = new Web3();
 web3.setProvider(new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_RPC_PROVIDER));
 const orderbook = new web3.eth.Contract((abi as any), contractAddress);
@@ -52,6 +52,12 @@ export async function getAllActiveOrders() {
 export async function getAllActiveOrdersVisibleToWallet(profile) {
     const orders = await getAllActiveOrders();
     const filtered = orders.filter(order => isAccessible(order, profile));
+    return filtered;
+}
+
+export async function getAllActiveOrdersVisibleToWalletAndPlants(profile) {
+    const orders = await getAllActiveOrdersVisibleToWallet(profile);
+    const filtered = orders.filter(order => order.description.toLowerCase().includes("plant"));
     return filtered;
 }
 
