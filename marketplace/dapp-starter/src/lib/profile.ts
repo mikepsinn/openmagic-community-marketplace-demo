@@ -1,5 +1,6 @@
 import { ProfileType } from "@/api/walletScan"
 import { groupByCollection } from "./nft";
+import { EthNYCCommunity } from "./nft";
 
 export const getProfileImage = (profile: ProfileType) => {
   if (profile.lens.length > 0 && profile.lens[0].picture) return profile.lens[0].picture?.original?.url;
@@ -9,9 +10,6 @@ export const getProfileImage = (profile: ProfileType) => {
 }
 
 export const getMutualConnections = (profile1, profile2) => {
-  // if (profile1.address == profile2.address) {
-  //   return { mutualCollections: [], mutualDaos: []}
-  // }
   const collection1 = groupByCollection(profile1.nfts);
   const collection2 = groupByCollection(profile2.nfts);
 
@@ -24,6 +22,9 @@ export const getMutualConnections = (profile1, profile2) => {
       }
     })
   })
+  if (profile1.is_participant && profile2.is_participant) {
+    mutualCollections.push(EthNYCCommunity)
+  }
 
   const mutualDaos = [];
   profile1.daos.daos.map(dao1 => {

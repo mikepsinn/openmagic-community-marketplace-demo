@@ -1,10 +1,13 @@
 import * as React from 'react'
 import CommunityCheckbox from './CommunityCheckbox'
 
-import { groupByCollection } from '@/lib/nft'
+import { groupByCollection, EthNYCCommunity } from '@/lib/nft'
 
 export default function Communities({ profile }) {
 	const collections = groupByCollection(profile.nfts)
+	if (profile.is_participant) {
+		collections.push(EthNYCCommunity)
+	}
 
 	return (
 		<div>

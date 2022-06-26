@@ -1,3 +1,8 @@
+export const EthNYCCommunity = {
+  image_url: "https://nyc.ethglobal.co/img/eth-ny.svg",
+  name: "EthNYC Attendee"
+}
+
 export const groupByCollection = (nfts) => {
   const collections = [];
 
