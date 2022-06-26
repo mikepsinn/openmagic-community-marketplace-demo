@@ -6,7 +6,12 @@ import { useRouter } from 'next/router'
 import truncateEthAddress from 'truncate-eth-address'
 import useChat from '@/hooks/useChat'
 
+import Mutuals from '@/components/Mutuals'
+
 import { StarIcon } from '@heroicons/react/solid'
+
+import { getMutualConnections } from '@/lib/profile'
+import useCurrentUser from '@/hooks/useCurrentUser'
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ')
@@ -23,6 +28,15 @@ export default function MiniProfile({
 }) {
 	const { setShowChat, setAddress } = useChat()
 	const router = useRouter()
+	const currUser = useCurrentUser()
+
+	const [mutuals, setMutuals] = React.useState({})
+	React.useEffect(() => {
+		if (profile && currUser) {
+			setMutuals(getMutualConnections(profile, currUser))
+		}
+	}, [profile, currUser])
+
 	return (
 		<div className="pb-2 mt-3 ">
 			<div className="flex items-center space-x-5 ">
@@ -85,12 +99,17 @@ export default function MiniProfile({
 				<p>{profile.poaps.length} POAPs</p>
 				<p>{profile.nfts.length == 100 ? '100+' : profile.nfts.length} NFTs</p>
 			</div>
+			{mutuals && (
+				<div>
+					<Mutuals mutuals={mutuals} />
+				</div>
+			)}
 			{showMessageButton && (
 				<button
 					type="submit"
-					onClick={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
+					onClick={e => {
+						e.preventDefault()
+						e.stopPropagation()
 						setAddress(profile.address)
 						setShowChat(true)
 					}}

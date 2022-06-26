@@ -9,7 +9,8 @@ export default function Writings({ mirror }) {
 			{mirror.length > 0 && (
 				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 					{mirror.map(article => (
-						<div
+						<a
+							href={`https://viewblock.io/arweave/tx/${article}`}
 							key={article}
 							className="relative flex items-center px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm"
 						>
@@ -25,7 +26,7 @@ export default function Writings({ mirror }) {
 									{/* <p className="text-sm text-gray-500 truncate">{poap.event.description}</p> */}
 								</div>
 							</div>
-						</div>
+						</a>
 					))}
 				</div>
 			)}
