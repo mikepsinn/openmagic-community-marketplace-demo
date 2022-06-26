@@ -17,7 +17,7 @@ function classNames(...classes) {
 	return classes.filter(Boolean).join(' ')
 }
 
-const reviews = { average: 4, totalCount: 1624 }
+const reviews = { average: 5, totalCount: 1624 }
 
 export default function MiniProfile({
 	profile,
