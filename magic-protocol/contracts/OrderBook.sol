@@ -54,8 +54,6 @@ contract OrderBook {
         require(_checkOrderOpen(openOrderId), "Listing accepted must be open!");
         // assert that the person buying is not the person selling
         require(msg.sender != openOrders[openOrderId].seller, "seller cannot self-purchase");        
-        // assert that price is right
-        require(msg.value == openOrders[openOrderId].price, "wrong price listed");
 
         openOrders[openOrderId].isOpen = false;
         payable(openOrders[openOrderId].seller).transfer(openOrders[openOrderId].price); // seller gets paid.
