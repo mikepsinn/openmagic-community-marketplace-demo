@@ -9,6 +9,8 @@ import useCurrentUser from '@/hooks/useCurrentUser'
 import { readImageFromIPFS, uploadImageToIPFS } from '@/api/web3/ipfs'
 import { listItem } from '@/api/web3/contract'
 
+import { toast } from "react-hot-toast";
+
 export default function Create() {
 	const router = useRouter()
 	const currentUser = useCurrentUser()
@@ -37,8 +39,10 @@ export default function Create() {
 				communities: [],
 				timestamp: Math.floor(Date.now() / 1000),
 			}
-
+			toast("Confirm transaction in Metamask");
 			await listItem(currentUser.address, metadata, price)
+			toast.success("Successfully listed! 🎉");
+			router.push("/sell")
 		}
 	}
 

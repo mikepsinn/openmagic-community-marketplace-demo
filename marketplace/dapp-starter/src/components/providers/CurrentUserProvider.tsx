@@ -13,6 +13,7 @@ export const FiltersProvider = ({ children }) => {
     const getProfile = async () => {
       if (data?.address) {
         const resp = await getWalletInfo(data?.address);
+
         if (resp) {
           setWalletInfo(resp);
         }

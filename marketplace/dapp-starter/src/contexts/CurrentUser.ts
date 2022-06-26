@@ -11,6 +11,7 @@ export const CurrentUserContext = createContext<CurrentUserContextType>({
  poaps: [],
  lens: [],
  mirror: [],
+ listings: [],
  first_tx: null,
  is_participant: false
 });

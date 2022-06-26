@@ -7,6 +7,7 @@ import MiniProfile from './MiniProfile'
 import TabMenu from './TabMenu'
 
 import Listings from './UsersListings'
+import UserTransactions from './UserTransactions'
 
 import Daos from './Daos'
 import POAPs from './POAPs'
@@ -45,7 +46,8 @@ export default function FullProfile({ profile }: { profile: ProfileType }) {
 						<div className="pb-10" />
 					</div>
 				)}
-				{ activeTab == 'Listings' && <Listings wallet={profile.address} />}
+				{ activeTab == 'Listings' && <Listings listings={profile.listings} />}
+				{ activeTab == 'Transactions & Reviews' && <UserTransactions address={profile.address} />}
 				{/* {activeTab == 'DAOs' && <Daos daos={profile.daos} />}
 			{activeTab == 'POAPs' && <POAPs poaps={profile.poaps} />}
 			{activeTab == 'NFTs' && <NFTs nfts={profile.nfts} />}

@@ -6,23 +6,6 @@ import { useRouter } from 'next/router'
 
 import { getHistoryForAddress } from "@/api/web3/contract"
 
-const fakeListings = [
-	{
-		title: 'Plant',
-		description: 'a really expensive plant',
-    price: "$324",
-		image: 'https://m.media-amazon.com/images/I/61PPYUoc2aL._AC_SL1000_.jpg',
-		availability: 'Available to PlantDAO Owners',
-	},
-	{
-		title: 'Plant2',
-		description: 'a really expensive plant',
-    price: "$168",
-		image: 'https://m.media-amazon.com/images/I/61PPYUoc2aL._AC_SL1000_.jpg',
-		availability: 'Available to PlantDAO Owners and EthNYC Attendees',
-	},
-]
-
 const Sell = () => {
 	const [myListing, setMyListing] = useState<any[]>([]);
 	

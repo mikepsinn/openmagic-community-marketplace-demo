@@ -1,13 +1,15 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import { Fragment, useState } from 'react'
-import { Dialog, RadioGroup, Transition } from '@headlessui/react'
+import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 
 import { acceptItem } from '@/api/web3/contract'
 import useCurrentUser from '@/hooks/useCurrentUser';
 
 import truncateEthAddress from 'truncate-eth-address'
+
+import { toast } from "react-hot-toast";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ')
@@ -18,9 +20,11 @@ export default function PurchaseModal({ open, setOpen, listing }) {
 	const currentUser = useCurrentUser()
 
 	const handlePurchase = async () => {
-		console.log(listing.id)
 		if (currentUser.address) {
+			toast("Confirm transaction in Metamask");
 			await acceptItem(currentUser.address, listing.id, listing.price);
+			toast.success("Successfully Purchased! 🎉");
+			location.reload();
 		}
 	}
 

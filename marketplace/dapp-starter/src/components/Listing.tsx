@@ -55,7 +55,7 @@ export default function Listing({ listing }) {
 						<div className="flex items-center">
 							<p className="text-lg text-gray-900 sm:text-xl">
 							{!listing.isOpen && <span className='mr-1 text-red-600'>Sold</span>}
-								{listing.price}
+								${listing.price}
 							</p>
 						</div>
 

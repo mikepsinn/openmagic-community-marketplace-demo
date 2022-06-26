@@ -78,12 +78,12 @@ export default function MiniProfile({
 						</div>
 						<p className="sr-only">{reviews.average} out of 5 stars</p>
 					</div>
-					<p className="ml-2 text-sm text-gray-500">{reviews.totalCount} Reviews</p>
+					<p className="ml-2 text-sm text-gray-500">{profile.sold.length} Sold</p>
 				</div>
+				<p>{profile.listings.length} Listings</p>
 				<p>{profile.daos.totalDaos} DAOs</p>
 				<p>{profile.poaps.length} POAPs</p>
 				<p>{profile.nfts.length == 100 ? '100+' : profile.nfts.length} NFTs</p>
-				<p>{profile.mirror.length} Articles</p>
 			</div>
 			{showMessageButton && (
 				<button

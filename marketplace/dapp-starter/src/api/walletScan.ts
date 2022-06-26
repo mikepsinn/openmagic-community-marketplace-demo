@@ -6,6 +6,8 @@ import {
   query, where, limit,
 } from "firebase/firestore";
 
+import { getOpenListingForSeller, getCompletedOrdersForSeller } from '@/api/web3/contract'
+
 const walletScanEndpoint = 'https://us-central1-walletscan-354022.cloudfunctions.net/walletscan_demo?address=';
 
 export type ProfileType = {
@@ -21,6 +23,8 @@ export type ProfileType = {
   poaps: any[];
   lens: any[];
   mirror: any[];
+  listings: any[];
+  sold: any[];
   first_tx: { timestamp: any, hash: string };
   is_participant: boolean
 };
@@ -52,14 +56,26 @@ export const getWalletInfo = async (address): Promise<ProfileType> => {
   try {
     const cached = await checkCachedData(address);
     if (cached) {
+      const listings = await getOpenListingForSeller(address);
+      cached.listings = listings;
+      const sold = await getCompletedOrdersForSeller(address);
+      cached.sold = sold;
       return cached;
     }
     
     const response = await axios.get(`${walletScanEndpoint}${address}`);
-    if (response.data && response.data.address) {
-      cacheAPIResponse(response.data.address, response.data);
+    const wallet = response.data;
+    const listings = await getOpenListingForSeller(address);
+    wallet.listings = listings;
+    const sold = await getCompletedOrdersForSeller(address);
+    wallet.sold = sold;
+    
+    if (wallet && wallet.address) {
+      
+      cacheAPIResponse(wallet.address, wallet);
     }
-    return response.data;
+    
+    return wallet;
   } catch {
     return null;
   }

@@ -6,7 +6,7 @@ import { abi } from "./abi";
 
 export const WEIS_PER_ETHER = 1000000000000000000;
 
-const contractAddress: string = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512';
+const contractAddress: string = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 const web3 = new Web3();
 web3.setProvider(new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_RPC_PROVIDER));
 const orderbook = new web3.eth.Contract((abi as any), contractAddress);
@@ -39,6 +39,11 @@ export async function getAllOrders() {
     const flattened = await orderbook.methods.exportOrders().call();
     const orders = await zip(flattened);
     return orders;
+}
+
+export async function getAllActiveOrders() {
+    const orders = await getAllOrders();
+    return orders.filter(order => order.isOpen);
 }
 
 export async function getHistoryForAddress(address: string) {

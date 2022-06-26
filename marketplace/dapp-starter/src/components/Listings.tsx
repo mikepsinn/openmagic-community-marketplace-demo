@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 import ListingCard from './ListingCard'
 
-import { getAllOrders } from '@/api/web3/contract'
+import { getAllActiveOrders } from '@/api/web3/contract'
 
 export default function Listings() {
 	const router = useRouter()
@@ -16,7 +16,7 @@ export default function Listings() {
 	useEffect(() => {
 		if (!loading) {
 			setLoading(true)
-			getAllOrders().then(items => {
+			getAllActiveOrders().then(items => {
 				setListings(items)
 				setLoading(false)
 			})
