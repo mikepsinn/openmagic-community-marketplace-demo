@@ -5,6 +5,7 @@ import { uploadMetadataToIPFS, readMetadataFromIPFS, readImageFromIPFS } from ".
 import { abi } from "./abi";
 
 export const WEIS_PER_ETHER = 1000000000000000000;
+export const DOLLARS_PER_ETHER = 1000;
 
 const contractAddress: string = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 const web3 = new Web3();
@@ -28,7 +29,7 @@ export async function getOrderById(id: string) {
         id: orderId,
         seller,
         isOpen,
-        price: price / WEIS_PER_ETHER,
+        price: price / WEIS_PER_ETHER * DOLLARS_PER_ETHER,
         soldTo: soldTo === "0x0000000000000000000000000000000000000000" ? null : soldTo,
         imageSrc: imageSrcUrl,
         ...metadata,
@@ -81,7 +82,7 @@ export async function listItem(address: string, orderMetadata: any, price: numbe
                 orderDetailIPFS,
                 // price
                 // WEIS_PER_ETHER
-                web3.utils.numberToHex(price * WEIS_PER_ETHER)
+                web3.utils.numberToHex(price * WEIS_PER_ETHER / DOLLARS_PER_ETHER)
             ).encodeABI(),
         }]
     });
@@ -93,7 +94,7 @@ export async function acceptItem(address: string, orderId: string, price: number
         params:[{
             from: address,
             to: contractAddress,
-            value: web3.utils.numberToHex(price * WEIS_PER_ETHER),
+            value: web3.utils.numberToHex(price * WEIS_PER_ETHER / DOLLARS_PER_ETHER),
             data: orderbook.methods.acceptItem(orderId).encodeABI(),
         }]
     })
@@ -113,7 +114,6 @@ export const zip = async (rows) => {
             ...meta
         }
     }))
-    console.log(rows);
     const formedRows = [rows[0], rows[1], rows[2], metadataWithImages, rows[4], rows[5]];
     const zipped = formedRows[0].map((_ ,c)=>formedRows.map(row=>row[c]))
     return zipped.map(([ id, seller, isOpen, metadata, price, soldTo]) => ({
@@ -121,7 +121,7 @@ export const zip = async (rows) => {
         seller,
         isOpen,
         ...metadata,
-        price: price / WEIS_PER_ETHER,
+        price: price / WEIS_PER_ETHER * DOLLARS_PER_ETHER,
         soldTo: soldTo === "0x0000000000000000000000000000000000000000" ? null : soldTo
     }));
 }
