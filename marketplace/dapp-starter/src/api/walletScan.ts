@@ -71,12 +71,10 @@ export const getWalletInfo = async (address): Promise<ProfileType> => {
     wallet.sold = sold;
     
     if (wallet && wallet.address) {
-      
       cacheAPIResponse(wallet.address, wallet);
     }
-    
     return wallet;
-  } catch {
+  } catch (error){
     return null;
   }
 }
