@@ -81,7 +81,7 @@ export default function PurchaseModal({ open, setOpen, listing }) {
 													Product information
 												</h3>
 
-												<p className="text-2xl text-gray-900">{listing.price}</p>
+												<p className="text-2xl text-gray-900">${listing.price}</p>
 
 												<div className="mt-6">
 													<h4 className="sr-only">Description</h4>
@@ -111,7 +111,7 @@ export default function PurchaseModal({ open, setOpen, listing }) {
 														/>
 														<span className="text-sm text-gray-600">
 															Your address will be encrypted with{' '}
-															{truncateEthAddress(listing.seller)}`s private key. Only{' '}
+															{truncateEthAddress(listing.seller)}`s public key. Only{' '}
 															{truncateEthAddress(listing.seller)} will be able to see
 															your address.
 														</span>
