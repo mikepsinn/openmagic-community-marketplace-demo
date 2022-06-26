@@ -15,25 +15,6 @@ export type listingType = {
   timestamp: number
 }
 
-/**
- * Returns listing visibility and join.
- * @param listing 
- * @param currentUser 
- * @returns
- *   1) whether the listing should be visible for current user
- *   2) the intersecting communities
- */
-export function checkListingVisibility(listing, currentUser) {
-  const communities = listing.communities;
-  const listPublicly = listing.listPublicly;
-
-  if (listPublicly) return { visible: true, joins: [] }
-
-
-  
-}
-
-
 /** DEPRECATED BELOW */
 
 export type listingTypeDeprecated = {
