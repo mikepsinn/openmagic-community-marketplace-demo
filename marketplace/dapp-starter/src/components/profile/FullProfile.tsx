@@ -40,9 +40,9 @@ export default function FullProfile({ profile }: { profile: ProfileType }) {
 						<hr className="my-6" />
 						<SBTs sbts={[]} />
 						<hr className="my-6" />
-						<Writings mirror={profile.mirror} />
-						<hr className="my-6" />
 						<NFTs nfts={profile.nfts} />
+						<hr className="my-6" />
+						<Writings mirror={profile.mirror} />
 						<div className="pb-10" />
 					</div>
 				)}

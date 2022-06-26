@@ -4,6 +4,8 @@ import { uploadMetadataToIPFS, readMetadataFromIPFS, readImageFromIPFS } from ".
 
 import { abi } from "./abi";
 
+import { isAccessible } from "@/lib/profile";
+
 export const WEIS_PER_ETHER = 1000000000000000000;
 export const DOLLARS_PER_ETHER = 1000;
 
@@ -45,6 +47,12 @@ export async function getAllOrders() {
 export async function getAllActiveOrders() {
     const orders = await getAllOrders();
     return orders.filter(order => order.isOpen);
+}
+
+export async function getAllActiveOrdersVisibleToWallet(profile) {
+    const orders = await getAllActiveOrders();
+    const filtered = orders.filter(order => isAccessible(order, profile));
+    return filtered;
 }
 
 export async function getHistoryForAddress(address: string) {

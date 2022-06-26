@@ -11,15 +11,27 @@ export default function Mutuals(mutuals) {
 						src={dao.image}
 					/>
 				))}
-        {mutuals?.mutuals?.mutualCollections?.map(collection => (
+				{mutuals?.mutuals?.mutualCollections?.map(collection => (
 					<img
 						key={collection.name}
 						className="inline-block w-6 h-6 rounded-full ring-2 ring-white"
 						src={collection.image_url}
 					/>
 				))}
+				{mutuals?.mutuals?.mutualPoaps?.map(poap => (
+					<img
+						key={poap.event.name}
+						className="inline-block w-6 h-6 rounded-full ring-2 ring-white"
+						src={poap.event.image_url}
+					/>
+				))}
 			</div>
-			<div className="text-sm font-medium text-gray-500">{mutuals?.mutuals?.mutualDaos?.length + mutuals?.mutuals?.mutualCollections?.length} Communities in common</div>
+			<div className="text-sm font-medium text-gray-500">
+				{mutuals?.mutuals?.mutualDaos?.length +
+					mutuals?.mutuals?.mutualCollections?.length +
+					mutuals?.mutuals?.mutualPoaps?.length}{' '}
+				Communities in common
+			</div>
 		</div>
 	)
 }

@@ -73,7 +73,7 @@ export default function Listing({ listing }) {
 									<span className="text-gray-500">This listing is only for members of</span>{' '}
 									<span className="text-blue-500">
 										{listing.communities.map(community => (
-											<span key={community.name}>{community.name}</span>
+											<span key={community}>{community}</span>
 										))}
 									</span>
 								</div>

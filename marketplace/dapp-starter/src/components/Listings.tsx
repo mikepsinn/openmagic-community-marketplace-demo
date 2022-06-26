@@ -6,23 +6,25 @@ import { useRouter } from 'next/router'
 
 import ListingCard from './ListingCard'
 
-import { getAllActiveOrders } from '@/api/web3/contract'
+import { getAllActiveOrdersVisibleToWallet } from '@/api/web3/contract'
+import useCurrentUser from '@/hooks/useCurrentUser'
 
 export default function Listings() {
 	const router = useRouter()
 	const [listings, setListings] = useState<any[]>([])
 	const [loading, setLoading] = useState<boolean>(false)
+	const curUser = useCurrentUser();
 
 	useEffect(() => {
-		if (!loading) {
+		if (!loading && curUser) {
 			setLoading(true)
-			getAllActiveOrders().then(items => {
+			getAllActiveOrdersVisibleToWallet(curUser).then(items => {
 				setListings(items)
 				setLoading(false)
 			})
 		}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [curUser])
 	return (
 		<div className="bg-white">
 			<div>

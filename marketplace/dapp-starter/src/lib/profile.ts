@@ -35,8 +35,41 @@ export const getMutualConnections = (profile1, profile2) => {
     })
   })
 
+  const mutualPoaps = [];
+  profile1.poaps.map(poap1 => {
+    profile2.poaps.map(poap2 => {
+      if (poap1.event.name == poap2.event.name) {
+        mutualPoaps.push(poap1);
+      }
+    })
+  })
+
   return {
     mutualCollections,
-    mutualDaos
+    mutualDaos,
+    mutualPoaps
   }
+}
+
+export const isAccessible = (order, userProfile) => {
+  if (order.listPublicly) return true;
+  const collection1 = groupByCollection(userProfile.nfts);
+
+  for (var i = 0; i < order.communities.length; i++) {
+    const community = order.communities[i];
+    for (var j = 0; j < collection1.length; j++) {
+      const collection = collection1[j];
+      if (collection.name == community) return true;
+    }
+    for (var j = 0; j < userProfile.daos.daos.length; j++) {
+      const dao = userProfile.daos.daos[j];
+      if (dao.name == community) return true;
+    }
+    for (var j = 0; j < userProfile.poaps.length; j++) {
+      const poap = userProfile.poaps[j];
+      if (poap.name == community) return true;
+    }
+  }
+  
+  return false;
 }

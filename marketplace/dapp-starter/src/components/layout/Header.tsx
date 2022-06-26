@@ -2,9 +2,11 @@
 import ConnectWallet from '../ConnectWallet'
 import * as React from 'react'
 import { useRouter } from 'next/router'
+import useCurrentUser from '@/hooks/useCurrentUser'
 
 export default function Header() {
 	const router = useRouter()
+	const curUser = useCurrentUser();
 
 	return (
 		<header className="max-w-md px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
@@ -19,6 +21,12 @@ export default function Header() {
 							onClick={() => router.push('/sell')}
 						>
 							Sell
+						</a>
+						<a
+							className="text-lg font-medium cursor-pointer hover:text-gray-600"
+							onClick={() => router.push(`/user/${curUser.address}`)}
+						>
+							Profile
 						</a>
 						<ConnectWallet />
 					</ul>
