@@ -74,7 +74,7 @@ export const getWalletInfo = async (address): Promise<ProfileType> => {
       cacheAPIResponse(wallet.address, wallet);
     }
     return wallet;
-  } catch (e) {
+  } catch (error){
     return null;
   }
 }
